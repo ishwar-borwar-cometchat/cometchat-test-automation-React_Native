@@ -1,0 +1,5 @@
+name: sample
+version: 1.0
+data:
+  - item1
+  - item2

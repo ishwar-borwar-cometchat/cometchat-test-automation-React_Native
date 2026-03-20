@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Appium
+screenshots/
+*.xml
+
+# APK (too large for git)
+*.apk
