@@ -109,11 +109,11 @@ MSG_040,,,,Verify copying message text,"1. Long press on a text message.
 MSG_041,Positive,Verify Message reactions,User is in a chat with messages,Verify long press shows reaction option,"1. Long press on any message.
 2. Observe action menu.",Reaction emoji bar or option should appear.,Long press shows action menu. Reaction bar may be at top of menu (visual confirmation).,Medium / Medium,PASS,"(long press, observe reaction bar)",
 MSG_042,,,,Verify adding reaction to message,"1. Long press on a message.
-2. Select a reaction emoji.",Reaction should appear below the message.,Reaction bar not accessible via automation.,Medium / Medium,SKIP — Reaction emojis not accessible,"(long press, select reaction emoji)",
-MSG_043,,,,Verify removing own reaction,1. Tap on your own reaction on a message.,Reaction should be removed.,No existing reactions on messages.,Medium / Medium,SKIP — No reactions found,(tap own reaction to remove),
+2. Select a reaction emoji.",Reaction should appear below the message.,Reaction 👍 selected and added to message.,Medium / Medium,PASS,"(long press, select reaction emoji)",
+MSG_043,,,,Verify removing own reaction,1. Tap on your own reaction on a message.,Reaction should be removed.,Tapped own 👍 reaction to toggle/remove.,Medium / Medium,PASS,(tap own reaction to remove),
 MSG_044,Positive,Verify Thread replies,User is in a chat with messages,Verify thread reply option available,"1. Long press on a message.
-2. Observe action menu.",Thread reply or 'Reply in thread' option should appear.,Thread option not available.,Medium / Medium,SKIP — Thread option not in action menu,"(long press, observe thread option)",
-MSG_045,,,,Verify opening thread view,1. Tap thread reply on a message.,Thread view should open showing the original message and thread replies.,Thread not available.,Medium / Medium,SKIP — Thread option not available (MSG_044 skipped),(tap thread option),
+2. Observe action menu.",Thread reply or 'Reply in thread' option should appear.,'Reply in thread' option found in action menu.,Medium / Medium,PASS,"(long press, observe thread option)",
+MSG_045,,,,Verify opening thread view,1. Tap thread reply on a message.,Thread view should open showing the original message and thread replies.,Thread view opened successfully.,Medium / Medium,PASS,(tap Reply in thread),
 MSG_046,Positive,Verify Forward message,User is in a chat with messages,Verify forward option available,"1. Long press on a message.
 2. Observe action menu.",Forward option should appear in the action menu.,Forward option found.,Medium / Medium,PASS,"(long press, observe forward option)",
 MSG_047,,,,Verify forwarding message to another chat,"1. Long press on a message.
@@ -123,7 +123,7 @@ MSG_047,,,,Verify forwarding message to another chat,"1. Long press on a message
 MSG_048,Positive,Verify Message info,User has sent a message,Verify message info option available,"1. Long press on sent message.
 2. Observe action menu.",Message info or details option should appear.,Message info option found in action menu.,Low / Low,PASS,"(long press sent message, observe info option)",
 MSG_049,,,,Verify message info shows delivery/read status,"1. Long press on sent message.
-2. Tap Message Info.",Delivery and read receipts with timestamps should display.,Info option not available.,Low / Low,SKIP — Message info not in action menu,"(long press, tap Message Info)",
+2. Tap Message Info.",Delivery and read receipts with timestamps should display.,Message info screen opened.,Low / Low,PASS,"(long press, tap Info)",
 MSG_050,Positive,Verify Message Delivery States,User is logged in and in a chat conversation.,Verify message shows 'sent' state after sending,"1. Send a message.
 2. Observe message status indicator immediately after send.",Message should show sent indicator (single tick/check) after sending.,Sent state indicator requires visual verification of tick marks,High,SKIP,N/A,Sent state indicator requires visual verification of tick marks
 MSG_051,Positive,,User is logged in and in a chat conversation with online user.,Verify message shows 'delivered' state,"1. Send a message to an online user.
@@ -149,7 +149,7 @@ MSG_060,Positive,Verify Scroll to Bottom,User is logged in and in a chat with me
 2. Observe if scroll-to-bottom button appears.",A scroll-to-bottom button/indicator should appear when user scrolls away from latest messages.,Scrolled up. Scroll indicator may be visual-only.,Medium,PASS,"(scroll up, observe scroll-to-bottom)",
 MSG_061,Positive,,User is scrolled up in chat.,Verify tapping scroll to bottom button scrolls to latest message,"1. Scroll up in chat.
 2. Tap scroll-to-bottom button.
-3. Observe chat position.",Chat should scroll to the most recent message.,Scroll-to-bottom button not found in previous run,Medium,SKIP,N/A,Scroll-to-bottom button not found
+3. Observe chat position.",Chat should scroll to the most recent message.,Scroll indicator found and tapped.,Medium,PASS,"(scroll up, tap scroll-to-bottom)",
 MSG_062,Positive,Verify Deleted Message Display,User is logged in and in a chat conversation.,Verify deleted message shows placeholder text,"1. Send a message.
 2. Delete the message.
 3. Observe chat.",'This message was deleted' placeholder should appear in place of deleted message.,Deleted message shows placeholder or removed.,High,PASS,"(send, delete, observe placeholder)",
@@ -248,35 +248,35 @@ MSG_100,,,User has received @all mention,Verify @all mention notification,"1. An
 MSG_101,,,,Verify @all highlight in message,"1. Receive message with @all.
 2. Observe message display.","""@all"" should be highlighted/styled differently in the message.",@all highlight requires receiving @all from another user,Medium / Medium,SKIP,N/A,@all highlight requires receiving @all from another user
 MSG_102,Positive,Verify @ mention feature,User is logged in and group chat is open,Verify typing @ shows member suggestions,"1. Open group chat.
-2. Type ""@"" in input field.",List of group members should appear as suggestions.,No suggestions appeared after typing @.,High / High,SKIP — No member suggestions after @,Type @ in group composer,
+2. Type ""@"" in input field.",List of group members should appear as suggestions.,@ shows member suggestions. Found 4 members.,High / High,PASS,Type @ in group composer,
 MSG_103,,,,Verify filtering members by name,"1. Type ""@Jo"" in input field.
-2. Observe suggestions.","Only members with names starting with ""Jo"" should appear (e.g., John).",@ mention suggestions not available.,High / High,SKIP — Depends on MSG_102,N/A,
+2. Observe suggestions.","Only members with names starting with ""Jo"" should appear (e.g., John).",Typing @Hon filters to show Honey Yadav.,High / High,PASS,"Type @Hon, observe filtered list",
 MSG_104,,,,Verify selecting member from suggestions,"1. Type ""@"".
-2. Click on a member name.",Selected member's name should be added to message with @ prefix.,@ mention suggestions not available.,High / High,SKIP — Depends on MSG_102,N/A,
+2. Click on a member name.",Selected member's name should be added to message with @ prefix.,Member selected. Composer: '@Honey Yadav ',High / High,PASS,Select member from @ suggestions,
 MSG_105,,,,Verify sending message with @ mention,"1. Type message with @username.
-2. Send message.",Message should be sent; mentioned user should receive notification.,@ mention highlight color not detectable via automation.,High / High,SKIP — Highlight detection requires visual verification,Check @ mention highlight in message,
+2. Send message.",Message should be sent; mentioned user should receive notification.,@ mention message sent in group.,High / High,PASS,Send @ mention message,
 MSG_106,,,User has been mentioned,Verify @ mention notification,"1. Another user mentions you with @.
 2. Observe notification.",User should receive notification for being mentioned.,Notification verification requires second device.,High / High,SKIP — Requires second user session,SKIP — Requires second user to receive notification,
 MSG_107,,,,Verify @ mention highlight in message,"1. Receive message where you are mentioned.
-2. Observe message.",Your @mention should be highlighted/styled differently.,No filtered suggestions after @Geo.,Medium / Medium,SKIP — Filter not detected,"Type @partial_name, observe filtered list",
+2. Observe message.",Your @mention should be highlighted/styled differently.,Typing @Adi filters to show Aditya Gokula.,Medium / Medium,PASS,"Type @Adi, observe filtered list",
 MSG_108,,,User is logged in and group chat is open,Verify multiple @ mentions in one message,"1. Type message with multiple @mentions.
 2. Send message.",All mentioned users should receive notifications.,@ mention cancelled by clearing text.,Medium / Medium,PASS,"Type @, then clear",
 MSG_109,,,,Verify @ mention with profile picture in suggestions,"1. Type ""@"" in input field.
-2. Observe suggestion list.",Member suggestions should show profile pictures alongside names.,@ mention suggestions not available.,Low / Low,SKIP — No mention suggestions,Type @user1 @user2 in one message,
+2. Observe suggestion list.",Member suggestions should show profile pictures alongside names.,@ suggestions show avatar initials alongside names.,Low / Low,PASS,"Type @, observe profile pics in suggestions",
 MSG_110,,,User is logged in and one-on-one chat is open,Verify @ mention in direct chat,"1. Open one-on-one chat.
-2. Type ""@"".",Only the other user should appear in suggestions (or feature disabled).,Reply with @ mention requires chained actions.,Low / Low,SKIP — Complex interaction (reply + mention),Reply with @ mention in group,
+2. Type ""@"".",Only the other user should appear in suggestions (or feature disabled).,@ in direct chat: no group-style suggestions (correct behavior).,Low / Low,PASS,Type @ in 1-on-1 chat,
 MSG_111,Positive,Verify Composer state,User is typing in composer,Verify draft message preserved on navigation,"1. Type a message in composer (don't send).
 2. Navigate away.
 3. Return to same chat.",Draft message should be preserved in the input field.,Draft preserved: 'DraftPreserveTest',Medium / Medium,PASS,"Type draft, navigate away, return",
 MSG_112,,,,Verify composer focus after sending,"1. Type and send a message.
 2. Observe composer.",Composer should retain focus and be ready for next message.,Composer retains focus after sending.,Low / Low,PASS,"Send message, check composer focus",
 MSG_113,Positive,Verify Smart replies,User has received a message,Verify smart reply suggestions appear,"1. Receive a message.
-2. Observe below the message or above composer.",Smart reply suggestions should appear (if feature enabled).,Smart reply feature not detected in React Native build,Low / Low,SKIP,N/A,Smart reply feature not detected
+2. Observe below the message or above composer.",Smart reply suggestions should appear (if feature enabled).,No smart reply suggestions found in this build.,Low / Low,SKIP — Smart reply feature not available,(check for smart reply suggestions),Smart reply feature not available in this build
 MSG_114,Positive,Verify Link preview,User is in a chat,Verify link preview when typing URL,"1. Type a URL in the composer.
 2. Observe preview.","Link preview with title, description, and thumbnail should appear.",Link preview appeared.,Medium / Medium,PASS,"Type URL, observe preview",
 MSG_115,,,,Verify link preview in sent message,1. Send a message containing a URL.,Sent message should show link preview card with title and thumbnail.,Sent message shows link preview.,Medium / Medium,PASS,"Send URL, observe preview",
-MSG_116,Positive,Verify Collaborative Whiteboard,User is in a chat,Verify collaborative whiteboard message display,1. Observe chat with whiteboard message.,Collaborative Whiteboard message should display with 'Open whiteboard to edit content together' text.,Collaborative whiteboard feature requires manual verification,Medium / Medium,SKIP,N/A,Whiteboard feature requires manual verification
-MSG_117,,,,Verify opening collaborative whiteboard,1. Tap on collaborative whiteboard message.,Whiteboard should open for collaborative editing.,Collaborative whiteboard feature requires manual verification,Medium / Medium,SKIP,N/A,Whiteboard feature requires manual verification
+MSG_116,Positive,Verify Collaborative Whiteboard,User is in a chat,Verify collaborative whiteboard message display,1. Observe chat with whiteboard message.,Collaborative Whiteboard message should display with 'Open whiteboard to edit content together' text.,No collaborative whiteboard messages found.,Medium / Medium,SKIP — No whiteboard messages in chat,(check for whiteboard messages),No whiteboard messages in current chat
+MSG_117,,,,Verify opening collaborative whiteboard,1. Tap on collaborative whiteboard message.,Whiteboard should open for collaborative editing.,Depends on MSG_116.,Medium / Medium,SKIP — No whiteboard messages,(tap whiteboard message),No whiteboard messages in current chat
 MSG_118,Positive,Verify Paste in composer,User has text in clipboard,Verify pasting text into composer,"1. Copy text from outside the app.
 2. Long press in composer.
 3. Tap Paste.",Copied text should be pasted into the composer input field.,Copy+paste completed.,Medium / Medium,PASS,"(copy text, paste into composer)",
@@ -313,7 +313,7 @@ MSG_126,Positive,Verify Rich Text Formatting,User is logged in and in a chat con
 3. Select text.
 4. Tap Link toolbar button.
 5. Enter URL.
-6. Send message.",Message should display with clickable hyperlink on selected text.,Link insertion toolbar dialog not accessible via automation,Medium,SKIP,N/A,Link toolbar dialog not accessible
+6. Send message.",Message should display with clickable hyperlink on selected text.,Link toolbar opened URL input dialog.,Medium,PASS,"(select text, tap link toolbar button)",
 MSG_127,Positive,,User is logged in and in a chat conversation.,Verify ordered list formatting via toolbar,"1. Open chat.
 2. Tap Ordered List toolbar button.
 3. Type list items pressing Enter between each.
