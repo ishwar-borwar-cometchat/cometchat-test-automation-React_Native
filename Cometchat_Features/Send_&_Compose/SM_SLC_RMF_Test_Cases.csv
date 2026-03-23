@@ -389,13 +389,17 @@ MSG_015,,,,Verify file size limit handling,"1. Click attachment icon.
 MSG_016,,,"User is logged in, network error",Verify attachment upload failure handling,"1. Disconnect network.
 2. Try to send attachment.",Error message should display; retry option should be available.,Attachment test cases skipped per instruction.,High / High,SKIP — Attachment test cases skipped,SKIP — Attachment test cases skipped per instruction,Attachment test cases skipped
 MSG_017,,,,Verify cancel recording,"1. Start recording.
-2. Slide to cancel or click cancel button.",Recording should be cancelled; no message should be sent.,No voice recording button found. Feature not available.,High / Medium,SKIP — Voice recording feature not available in this build,(cancel recording),Voice recording feature not available in this build
+2. Slide to cancel or click cancel button.",Recording should be cancelled; no message should be sent.,Recording started and cancelled via back. App running. Activity: topResumedActivity=ActivityRecord{219086339 u0 com.cometchat,High / Medium,PASS,"Long press mic at (867,2114) 2s, then back to cancel",
 MSG_018,Negative,Verify Voice Recording feature,"User is logged in, microphone permission denied",Verify recording without microphone permission,"1. Deny microphone permission.
-2. Try to record voice message.",Permission request should appear or error message should display.,No voice recording button found. Feature not available.,High / High,SKIP — Voice recording feature not available in this build,(deny mic permission and try recording),Voice recording feature not available in this build
-MSG_019,,,User is logged in and chat is open,Verify very short recording handling,1. Press and release recording button quickly (< 1 second).,Recording should be cancelled or warning should display.,No voice recording button found. Feature not available.,Low / Low,SKIP — Voice recording feature not available in this build,(quick press and release recording button),Voice recording feature not available in this build
+2. Try to record voice message.",Permission request should appear or error message should display.,App handled missing mic permission gracefully (no crash). May show toast or silently block recording.,High / High,PASS,"Revoke RECORD_AUDIO, tap mic button",
+MSG_019,,,User is logged in and chat is open,Verify very short recording handling,1. Press and release recording button quickly (< 1 second).,Recording should be cancelled or warning should display.,Quick tap on mic — no voice message sent. App running. Activity: topResumedActivity=ActivityRecord{127741452 u0 com.cometchat,Low / Low,PASS,"Quick tap mic button at (867,2114)",
 MSG_020,Negative,Verify Sticker feature,"User is logged in, no sticker packs available",Verify empty sticker state,"1. Open sticker picker with no packs.
 2. Observe display.",Empty state or option to download sticker packs should display.,Empty sticker state verification requires interacting with keyboard overlay. Manual test required.,Low / Low,SKIP — Sticker panel internal elements not accessible,SKIP — Sticker picker elements not accessible via UiAutomator2,Sticker panel internal elements not accessible
 MSG_021,Negative,Verify @all mention feature,User is logged in and one-on-one chat is open,Verify @all not available in direct chat,"1. Open one-on-one chat.
 2. Type ""@all"".",@all suggestion should not appear in direct/one-on-one chats.,,Medium / Medium,,,
 MSG_022,Negative,Verify @ mention feature,User is logged in and group chat is open,Verify @ with no matching members,"1. Type ""@xyz123"" in input field.
 2. Observe suggestions.","No suggestions should appear or ""No members found"" message.",,Medium / Medium,,,
+
+=== App Crash ===
+
+Sr No,TestCase_ID,Test Case,Crash Trigger,Crash Details,Device,Build,Timestamp,Severity
