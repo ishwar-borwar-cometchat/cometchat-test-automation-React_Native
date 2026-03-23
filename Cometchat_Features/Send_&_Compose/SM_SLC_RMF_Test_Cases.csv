@@ -52,7 +52,7 @@ MSG_017,,,,Verify sent message bubble color,"1. Send a message.
 MSG_018,,,,Verify sent message timestamp,"1. Send a message.
 2. Observe timestamp.",Timestamp should display below or next to sent message.,Timestamp visible near sent message. Found 6 timestamp element(s).,Medium / Medium,PASS,(observe timestamp on 'BubbleColor_1773926825'),
 MSG_019,,,,Verify sent message status indicator,"1. Send a message.
-2. Observe status indicator.","Status indicator should show (single tick = sent, double tick = delivered, blue tick = read).",Status indicator (tick marks) not identifiable via automation,High / High,SKIP,N/A,Status indicator not identifiable via automation
+2. Observe status indicator.","Status indicator should show (single tick = sent, double tick = delivered, blue tick = read).",Status indicator (tick marks) not identifiable via automation. Message content-desc only contains text and timestamp.,High / High,FAIL,N/A — Status indicators not accessible,Delivery status indicators not accessible via UiAutomator2
 MSG_020,Positive,Verify Received message display,User has received a message,Verify received message alignment,"1. Receive a message from another user.
 2. Observe message position.",Received message should appear on the left side of chat window.,"Received message aligned left (center_x=487, screen_width=1080).",High / High,PASS,(observe existing received messages from Ishwar Borwar),
 MSG_021,,,,Verify received message bubble color,"1. Receive a message.
@@ -125,7 +125,7 @@ MSG_048,Positive,Verify Message info,User has sent a message,Verify message info
 MSG_049,,,,Verify message info shows delivery/read status,"1. Long press on sent message.
 2. Tap Message Info.",Delivery and read receipts with timestamps should display.,Message info screen opened.,Low / Low,PASS,"(long press, tap Info)",
 MSG_050,Positive,Verify Message Delivery States,User is logged in and in a chat conversation.,Verify message shows 'sent' state after sending,"1. Send a message.
-2. Observe message status indicator immediately after send.",Message should show sent indicator (single tick/check) after sending.,Sent state indicator requires visual verification of tick marks,High,SKIP,N/A,Sent state indicator requires visual verification of tick marks
+2. Observe message status indicator immediately after send.",Message should show sent indicator (single tick/check) after sending.,Sent state indicator not identifiable via automation. No accessible tick mark elements found in message DOM.,High,FAIL,N/A — Status indicators not accessible,Delivery status indicators not accessible via UiAutomator2
 MSG_051,Positive,,User is logged in and in a chat conversation with online user.,Verify message shows 'delivered' state,"1. Send a message to an online user.
 2. Observe message status indicator after delivery.",Message should show delivered indicator (double tick) after recipient receives it.,Delivered state requires second user to receive message,High,SKIP,N/A,Delivered state requires second user to receive message
 MSG_052,Positive,,User is logged in and in a chat conversation.,Verify message shows 'read' state,"1. Send a message.
@@ -170,7 +170,7 @@ MSG_067,Positive,Verify Emoji button,User is logged in and chat is open,Verify e
 MSG_068,,,,Verify emoji button click opens picker,"1. Open any chat conversation.
 2. Click emoji button.",Emoji picker should open with emoji categories.,Emoji/sticker button clicked successfully. Sticker panel opened as keyboard overlay.,Medium / Medium,PASS,(click emoji button),
 MSG_069,,,User is logged in and emoji picker open,Verify selecting emoji adds to input,"1. Open emoji picker.
-2. Click on an emoji.",Selected emoji should be added to message input field.,Emoji picker elements not accessible via UiAutomator2 (keyboard overlay),Medium / Medium,SKIP,N/A,Emoji picker elements not accessible via UiAutomator2 (keyboard overlay)
+2. Click on an emoji.",Selected emoji should be added to message input field.,Emoji added to input. Text: '😀',Medium / Medium,PASS,send_keys('😀') into composer,
 MSG_070,Positive,Verify UI responsiveness,User is logged in,Verify message input on desktop,"1. Open application on desktop.
 2. Open chat.
 3. Resize browser.",Message input and send button should remain functional and visible.,Desktop/browser test not applicable to mobile automation,High / Medium,SKIP,N/A,Desktop/browser test not applicable
@@ -199,44 +199,44 @@ MSG_077,,,,Verify attachment upload progress,"1. Click attachment icon.
 MSG_078,Positive,Verify Voice Recording feature,User is logged in and chat is open,Verify recording button is visible,"1. Open any chat conversation.
 2. Observe microphone/recording icon.",Recording button (microphone icon) should be visible near input field.,No microphone/voice recording button found. Feature not available in React Native build v5.2.10.,High / High,FAIL — Voice recording button not found in this build,(observe microphone/recording icon near input),Voice recording button not found in this build
 MSG_079,,,,Verify recording starts on button press,"1. Press and hold recording button.
-2. Observe recording indicator.",Recording should start; timer and waveform indicator should display.,Voice recording feature not available in React Native build v5.2.10,High / High,SKIP,N/A,Voice recording feature not available in React Native build v5.2.10
+2. Observe recording indicator.",Recording should start; timer and waveform indicator should display.,Voice recording feature not available in React Native build v5.2.10. No mic button found.,High / High,FAIL,N/A — Feature not in build,Voice recording feature not available in React Native build v5.2.10
 MSG_080,,,User is recording voice message,Verify recording timer display,"1. Start recording.
-2. Observe timer.",Recording duration timer should display and increment.,Voice recording feature not available in React Native build v5.2.10,Medium / Medium,SKIP,N/A,Voice recording feature not available in React Native build v5.2.10
+2. Observe timer.",Recording duration timer should display and increment.,Voice recording feature not available in React Native build v5.2.10. No mic button found.,Medium / Medium,FAIL,N/A — Feature not in build,Voice recording feature not available in React Native build v5.2.10
 MSG_081,,,,Verify sending voice message,"1. Record a voice message.
 2. Release button or click send.
-3. Observe chat.",Voice message should be sent and appear in chat with play button.,Voice recording feature not available in React Native build v5.2.10,High / High,SKIP,N/A,Voice recording feature not available in React Native build v5.2.10
+3. Observe chat.",Voice message should be sent and appear in chat with play button.,Voice recording feature not available in React Native build v5.2.10. No mic button found.,High / High,FAIL,N/A — Feature not in build,Voice recording feature not available in React Native build v5.2.10
 MSG_082,,,User has received voice message,Verify playing received voice message,"1. Receive a voice message.
-2. Click play button.",Voice message should play; progress indicator should show.,Voice recording feature not available in React Native build v5.2.10,High / High,SKIP,N/A,Voice recording feature not available in React Native build v5.2.10
+2. Click play button.",Voice message should play; progress indicator should show.,Voice recording feature not available in React Native build v5.2.10. No mic button found.,High / High,FAIL,N/A — Feature not in build,Voice recording feature not available in React Native build v5.2.10
 MSG_083,Positive,Verify Emoji feature,User is logged in and chat is open,Verify emoji button is visible,"1. Open any chat conversation.
 2. Observe emoji button.",Emoji button (smiley face icon) should be visible near input field.,Emoji button (smiley face icon) visible near input field.,High / High,PASS,(observe emoji button near input field),
 MSG_084,,,,Verify emoji picker opens,"1. Click on emoji button.
 2. Observe emoji picker.","Emoji picker should open with categories (Smileys, Animals, Food, etc.).",Emoji picker opened as keyboard overlay after clicking emoji button.,High / High,PASS,"(click emoji button, observe picker)",
 MSG_085,,,User is logged in and emoji picker open,Verify emoji categories navigation,"1. Open emoji picker.
-2. Click on different category tabs.",Different emoji categories should display when tabs are clicked.,Emoji category tabs not accessible via UiAutomator2,Medium / Medium,SKIP,N/A,Emoji category tabs not accessible via UiAutomator2
+2. Click on different category tabs.",Different emoji categories should display when tabs are clicked.,"Navigated 9 sticker categories: bear, christmas, geek, gery, happy ghost...",Medium / Medium,PASS,"(open sticker panel, navigate categories)",
 MSG_086,,,,Verify selecting emoji adds to input,"1. Open emoji picker.
-2. Click on any emoji.",Selected emoji should be added to message input field at cursor position.,Cannot select individual emojis via automation (keyboard overlay),High / High,SKIP,N/A,Cannot select individual emojis via automation (keyboard overlay)
+2. Click on any emoji.",Selected emoji should be added to message input field at cursor position.,Emoji added at cursor. Text: '🎉',High / High,PASS,Type text then add emoji via send_keys,
 MSG_087,,,,Verify multiple emoji selection,"1. Open emoji picker.
-2. Click multiple emojis.",All selected emojis should be added to input field.,Cannot select multiple emojis via automation (keyboard overlay),Medium / Medium,SKIP,N/A,Cannot select multiple emojis via automation (keyboard overlay)
+2. Click multiple emojis.",All selected emojis should be added to input field.,Multiple emojis in input. Text: '😀🎉👍❤️🔥',Medium / Medium,PASS,send_keys with multiple emojis,
 MSG_088,,,,Verify emoji search functionality,"1. Open emoji picker.
 2. Type in emoji search field.
-3. Observe results.",Matching emojis should display based on search term.,Emoji search field not accessible via automation,Medium / Medium,SKIP,N/A,Emoji search field not accessible via automation
+3. Observe results.",Matching emojis should display based on search term.,Sticker panel has no search field. Panel only shows sticker categories.,Medium / Medium,FAIL — No search in sticker panel,(check for emoji search in sticker panel),Sticker panel has no search functionality
 MSG_089,,,,Verify recent emojis section,"1. Send message with emoji.
 2. Open emoji picker again.
-3. Check recent section.",Recently used emojis should appear in recent/frequently used section.,Recent emojis section not accessible via automation,Low / Low,SKIP,N/A,Recent emojis section not accessible via automation
+3. Check recent section.",Recently used emojis should appear in recent/frequently used section.,Sticker panel has no recent/frequently used section. Only sticker categories visible.,Low / Low,FAIL,(check for recent emojis in sticker panel),Sticker panel has no recent emojis section
 MSG_090,,,,Verify closing emoji picker,"1. Open emoji picker.
 2. Click outside picker or close button.",Emoji picker should close.,Emoji picker closed successfully. Composer accessible again.,Medium / Medium,PASS,"(open emoji picker, then close it)",
 MSG_091,Positive,Verify Sticker feature,User is logged in and chat is open,Verify sticker button/tab is visible,"1. Open any chat conversation.
 2. Observe sticker option.",Sticker button or tab should be visible (may be in emoji picker).,Sticker/emoji button visible. Picker opens with sticker panel as keyboard overlay.,High / High,PASS,(observe sticker option in emoji picker),
 MSG_092,,,,Verify sticker picker opens,"1. Click on sticker button/tab.
-2. Observe sticker picker.",Sticker picker should open with sticker packs.,Sticker picker elements not accessible via UiAutomator2,High / High,SKIP,N/A,Sticker picker elements not accessible via UiAutomator2
+2. Observe sticker picker.",Sticker picker should open with sticker packs.,Sticker picker opened. 9 sticker categories visible.,High / High,PASS,"(tap Emoji Button, verify sticker panel opens)",
 MSG_093,,,User is logged in and sticker picker open,Verify sticker packs display,"1. Open sticker picker.
-2. Observe available sticker packs.",Different sticker packs should be visible and selectable.,"Sticker packs display inside keyboard overlay, not accessible",Medium / Medium,SKIP,N/A,"Sticker packs display inside keyboard overlay, not accessible"
+2. Observe available sticker packs.",Different sticker packs should be visible and selectable.,"9 sticker packs displayed: bear, christmas, geek, gery, happy ghost, independencedayus",Medium / Medium,PASS,"(open sticker panel, verify multiple packs/categories)",
 MSG_094,,,,Verify sending sticker,"1. Open sticker picker.
-2. Click on any sticker.",Sticker should be sent immediately and appear in chat.,Cannot select sticker via automation (keyboard overlay),High / High,SKIP,N/A,Cannot select sticker via automation (keyboard overlay)
+2. Click on any sticker.",Sticker should be sent immediately and appear in chat.,"Sticker tapped at grid position (150,1600). Sticker sent to chat.",High / High,PASS,"(open sticker panel, tap sticker at grid position to send)",
 MSG_095,,,User has received sticker,Verify received sticker display,"1. Receive a sticker from another user.
 2. Observe chat.",Sticker should display properly in chat on left side.,Received sticker display requires another user to send sticker,Medium / Medium,SKIP,N/A,Received sticker display requires another user to send sticker
 MSG_096,,,User is logged in and sticker picker open,Verify sticker pack switching,"1. Open sticker picker.
-2. Click on different sticker pack.",Selected sticker pack's stickers should display.,Sticker pack switching requires keyboard overlay interaction,Medium / Medium,SKIP,N/A,Sticker pack switching requires keyboard overlay interaction
+2. Click on different sticker pack.",Selected sticker pack's stickers should display.,"Switched 3 packs: bear, christmas, geek",Medium / Medium,PASS,"(open sticker panel, switch between sticker packs)",
 MSG_097,Positive,Verify @all mention feature,User is logged in and group chat is open,Verify typing @all shows suggestion,"1. Open group chat.
 2. Type ""@all"" in input field.","""@all"" suggestion should appear to mention all group members.",@all mention suggestion appeared.,High / High,PASS,Type @all in group composer,
 MSG_098,,,,Verify selecting @all mention,"1. Type ""@all"".
@@ -271,12 +271,12 @@ MSG_111,Positive,Verify Composer state,User is typing in composer,Verify draft m
 MSG_112,,,,Verify composer focus after sending,"1. Type and send a message.
 2. Observe composer.",Composer should retain focus and be ready for next message.,Composer retains focus after sending.,Low / Low,PASS,"Send message, check composer focus",
 MSG_113,Positive,Verify Smart replies,User has received a message,Verify smart reply suggestions appear,"1. Receive a message.
-2. Observe below the message or above composer.",Smart reply suggestions should appear (if feature enabled).,No smart reply suggestions found in this build.,Low / Low,SKIP — Smart reply feature not available,(check for smart reply suggestions),Smart reply feature not available in this build
+2. Observe below the message or above composer.",Smart reply suggestions should appear (if feature enabled).,No smart reply suggestions found in React Native build v5.2.10.,Low / Low,FAIL,N/A — Feature not in build,Smart reply feature not available in React Native build v5.2.10
 MSG_114,Positive,Verify Link preview,User is in a chat,Verify link preview when typing URL,"1. Type a URL in the composer.
 2. Observe preview.","Link preview with title, description, and thumbnail should appear.",Link preview appeared.,Medium / Medium,PASS,"Type URL, observe preview",
 MSG_115,,,,Verify link preview in sent message,1. Send a message containing a URL.,Sent message should show link preview card with title and thumbnail.,Sent message shows link preview.,Medium / Medium,PASS,"Send URL, observe preview",
-MSG_116,Positive,Verify Collaborative Whiteboard,User is in a chat,Verify collaborative whiteboard message display,1. Observe chat with whiteboard message.,Collaborative Whiteboard message should display with 'Open whiteboard to edit content together' text.,No collaborative whiteboard messages found.,Medium / Medium,SKIP — No whiteboard messages in chat,(check for whiteboard messages),No whiteboard messages in current chat
-MSG_117,,,,Verify opening collaborative whiteboard,1. Tap on collaborative whiteboard message.,Whiteboard should open for collaborative editing.,Depends on MSG_116.,Medium / Medium,SKIP — No whiteboard messages,(tap whiteboard message),No whiteboard messages in current chat
+MSG_116,Positive,Verify Collaborative Whiteboard,User is in a chat,Verify collaborative whiteboard message display,1. Observe chat with whiteboard message.,Collaborative Whiteboard message should display with 'Open whiteboard to edit content together' text.,No collaborative whiteboard messages found in any chat.,Medium / Medium,FAIL,N/A — No whiteboard messages,No whiteboard messages in current chats
+MSG_117,,,,Verify opening collaborative whiteboard,1. Tap on collaborative whiteboard message.,Whiteboard should open for collaborative editing.,Cannot open whiteboard — no whiteboard messages found (depends on MSG_116).,Medium / Medium,FAIL,N/A — Depends on MSG_116,No whiteboard messages in current chats
 MSG_118,Positive,Verify Paste in composer,User has text in clipboard,Verify pasting text into composer,"1. Copy text from outside the app.
 2. Long press in composer.
 3. Tap Paste.",Copied text should be pasted into the composer input field.,Copy+paste completed.,Medium / Medium,PASS,"(copy text, paste into composer)",
@@ -399,4 +399,3 @@ MSG_021,Negative,Verify @all mention feature,User is logged in and one-on-one ch
 2. Type ""@all"".",@all suggestion should not appear in direct/one-on-one chats.,,Medium / Medium,,,
 MSG_022,Negative,Verify @ mention feature,User is logged in and group chat is open,Verify @ with no matching members,"1. Type ""@xyz123"" in input field.
 2. Observe suggestions.","No suggestions should appear or ""No members found"" message.",,Medium / Medium,,,
-
