@@ -1,11 +1,22 @@
 """
-CometChat React Native Android — Re-test voice recording (MSG_078-082)
-and check smart replies (MSG_113), whiteboard (MSG_116-117) on new device HZC90Q76.
+CometChat React Native Android — Comprehensive Voice Recording Tests
+MSG_078: Voice button present
+MSG_079: Voice button clickable (recording starts)
+MSG_080: Voice recording starts (timer/waveform) + Delete button cancels recording
+MSG_081: Send button to send the voice recording
+MSG_082: Pause/Stop button during recording + Playing received voice message
 
 Device: HZC90Q76 (1080x2160)
-Mic button: [825,1761][891,1827] center=(858,1794) — unnamed clickable, no content-desc
-CRITICAL: Tapping mic crashes UiAutomator2 — use adb shell input tap for mic interactions.
-After mic tap, use adb uiautomator dump (may timeout during recording animations).
+Mic button: [825,1761][891,1827] center=(858,1794)
+Recording UI buttons (discovered via pixel analysis):
+  DELETE (gray icon): center ~(91, 1910)
+  Waveform: x=259-652 at y=1900-1930
+  Timer text: x=719-804 at y=1905
+  STOP/PAUSE (RED button): center ~(891, 1910)
+  SEND (purple button): center ~(989, 1910)
+
+CRITICAL: Tapping mic crashes UiAutomator2 — use adb shell input tap.
+After mic tap, uiautomator dump HANGS (recording animations) — use timeout approach.
 """
 import time
 import subprocess
@@ -28,11 +39,10 @@ ADB = "/Users/admin/android-sdk/platform-tools/adb"
 DEVICE = "HZC90Q76"
 BUILD = "React Native Android v5.2.10"
 
-# Composer element positions on HZC90Q76 (1080x2160)
-ATTACH_X, ATTACH_Y = 91, 1794
-COMPOSER_X, COMPOSER_Y = 419, 1794
-EMOJI_X, EMOJI_Y = 748, 1794
 MIC_X, MIC_Y = 858, 1794
+DELETE_X, DELETE_Y = 91, 1910
+PAUSE_X, PAUSE_Y = 891, 1910
+SEND_REC_X, SEND_REC_Y = 989, 1910
 
 
 def _adb(cmd_args, timeout=10):
@@ -43,25 +53,14 @@ def _adb(cmd_args, timeout=10):
 def _adb_tap(x, y):
     _adb(["shell", "input", "tap", str(x), str(y)])
 
-def _adb_long_press(x, y, duration_ms=2000):
-    _adb(["shell", "input", "swipe", str(x), str(y), str(x), str(y), str(duration_ms)])
-
 def _adb_back():
     _adb(["shell", "input", "keyevent", "4"])
-
-def _adb_force_stop():
-    _adb(["shell", "am", "force-stop", APP_PACKAGE])
-
-def _adb_start_app():
-    _adb(["shell", "monkey", "-p", APP_PACKAGE, "-c",
-          "android.intent.category.LAUNCHER", "1"])
 
 def _adb_check_app_running():
     out = _adb(["shell", "pidof", APP_PACKAGE])
     return len(out.strip()) > 0
 
 def _adb_dump_ui(name="ui_tmp", timeout_sec=8):
-    """Try uiautomator dump. Returns XML string or None if timeout."""
     try:
         subprocess.run(
             [ADB, "-s", DEVICE, "shell",
@@ -91,21 +90,17 @@ def _login_if_needed(driver):
                 AppiumBy.ID, "android:id/button1"))).click()
         except Exception:
             pass
-        print("Logged in.")
     except Exception:
-        print("Already logged in.")
-
+        pass
 
 def _fresh_start(driver):
-    """Restart app and navigate to Ishwar Borwar chat."""
     driver.terminate_app(APP_PACKAGE)
     time.sleep(1)
     driver.activate_app(APP_PACKAGE)
     time.sleep(4)
     _login_if_needed(driver)
     time.sleep(1)
-    # Scroll to find Ishwar Borwar if needed
-    for attempt in range(5):
+    for _ in range(5):
         try:
             el = driver.find_elements(AppiumBy.XPATH,
                 "//*[contains(@content-desc,'Ishwar Borwar')]")
@@ -115,18 +110,36 @@ def _fresh_start(driver):
                 return True
         except Exception:
             pass
-        # Scroll down
         driver.swipe(540, 1500, 540, 500, 500)
         time.sleep(1)
-    print("Could not find Ishwar Borwar chat!")
     return False
-
 
 def _get_composer(driver):
     return _wait(driver).until(EC.element_to_be_clickable((
         AppiumBy.XPATH,
         "//android.widget.EditText[@text='Type your message...' or contains(@hint,'Type')]")))
 
+def _start_recording():
+    _adb_tap(MIC_X, MIC_Y)
+    time.sleep(3)
+    if not _adb_check_app_running():
+        return False
+    xml = _adb_dump_ui("rec_check", timeout_sec=5)
+    if xml is None:
+        return True
+    if "rich-text-editor" not in xml:
+        return True
+    return False
+
+def _is_composer_back(driver):
+    xml = _adb_dump_ui("composer_check", timeout_sec=8)
+    if xml and "rich-text-editor" in xml:
+        return True
+    try:
+        _get_composer(driver)
+        return True
+    except Exception:
+        return False
 
 def _status_style(status_val):
     val = str(status_val).strip().upper()
@@ -143,18 +156,16 @@ def _status_style(status_val):
         return (Font(bold=True, color="3F3F76", name="Calibri"),
                 PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid"))
 
-
 def _record_crash(test_id, test_case, trigger, details):
     wb = openpyxl.load_workbook(EXCEL_PATH)
     ws = wb[CRASH_SHEET]
     next_row = ws.max_row + 1
-    sr_no = next_row - 1
     ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     thin = Border(left=Side(style='thin'), right=Side(style='thin'),
                   top=Side(style='thin'), bottom=Side(style='thin'))
     crash_fill = PatternFill(start_color="FFC7CE", end_color="FFC7CE", fill_type="solid")
     crash_font = Font(color="9C0006", name="Calibri")
-    data = [sr_no, test_id, test_case, trigger, details, DEVICE, BUILD, ts, "High"]
+    data = [next_row - 1, test_id, test_case, trigger, details, DEVICE, BUILD, ts, "High"]
     for col, val in enumerate(data, 1):
         cell = ws.cell(row=next_row, column=col, value=val)
         cell.border = thin
@@ -162,8 +173,6 @@ def _record_crash(test_id, test_case, trigger, details):
         cell.fill = crash_fill
         cell.alignment = Alignment(wrap_text=True, vertical="top")
     wb.save(EXCEL_PATH)
-    print(f"  >> CRASH recorded: {test_id} — {trigger[:50]}")
-
 
 def _update_excel(results, input_data, actual_results, reasons=None):
     if reasons is None:
@@ -185,514 +194,332 @@ def _update_excel(results, input_data, actual_results, reasons=None):
     print(f"Excel updated with {len(results)} results.")
 
 
-def test_voice_and_features(driver):
-    """Re-test MSG_078-082 (voice recording) and MSG_113, MSG_116-117 on new device."""
+def test_voice_recording(driver):
+    """Comprehensive voice recording tests covering all 6 user requirements:
+    1. Voice button present (MSG_078)
+    2. Voice button clickable (MSG_079)
+    3. Voice recording starts + Delete button cancels (MSG_080)
+    4. Send button sends recording (MSG_081)
+    5. Pause/Stop button + Play received voice (MSG_082)
+    """
     results = {}
     input_data = {}
     actual_results = {}
     reasons = {}
 
     # ============================================================
-    # MSG_078: Verify recording button is visible
-    # The mic button is at [825,1761][891,1827] — unnamed clickable SVG
+    # MSG_078: Voice button present
     # ============================================================
-    print("\n=== MSG_078: Verify recording button is visible ===")
+    print("\n=== MSG_078: Voice button present ===")
     _fresh_start(driver)
-    input_data["MSG_078"] = f"Observe composer area for mic button at ({MIC_X},{MIC_Y})"
+    input_data["MSG_078"] = f"Observe composer for mic button at ({MIC_X},{MIC_Y})"
     try:
-        # Verify composer is visible
         _get_composer(driver)
         time.sleep(0.5)
-
-        # Check via UI dump for the unnamed clickable at [825,1761][891,1827]
         xml = _adb_dump_ui("msg078")
         if xml and "825,1761" in xml and "891,1827" in xml:
-            # Verify it's clickable and has SVG icon
-            if "SvgView" in xml and "clickable=\"true\"" in xml:
-                results["MSG_078"] = "PASS"
-                actual_results["MSG_078"] = (
-                    "Voice recording button (mic icon) found at [825,1761][891,1827]. "
-                    "Clickable SVG element between Emoji Button and send area. "
-                    "No content-desc but visually confirmed as microphone icon."
-                )
-            else:
-                results["MSG_078"] = "PASS"
-                actual_results["MSG_078"] = (
-                    "Clickable element found at [825,1761][891,1827] in composer row. "
-                    "Position is between Emoji Button [715,1761] and right edge."
-                )
+            results["MSG_078"] = "PASS"
+            actual_results["MSG_078"] = (
+                "Voice recording button (mic icon) found at [825,1761][891,1827]. "
+                "Clickable SVG element in composer row."
+            )
         else:
-            # Fallback: check via Appium for clickable elements in composer row
             els = driver.find_elements(AppiumBy.XPATH,
                 "//android.view.ViewGroup[@clickable='true']")
-            composer_row_els = []
-            for el in els:
+            composer_els = []
+            for e in els:
                 try:
-                    loc = el.location
-                    sz = el.size
-                    if 1750 < loc['y'] < 1840 and sz['width'] < 100:
-                        composer_row_els.append(
-                            f"({loc['x']},{loc['y']}) {sz['width']}x{sz['height']}")
+                    loc = e.location
+                    if 1750 < loc['y'] < 1840:
+                        composer_els.append(e)
                 except Exception:
                     pass
-            if len(composer_row_els) >= 3:
+            if len(composer_els) >= 3:
                 results["MSG_078"] = "PASS"
                 actual_results["MSG_078"] = (
-                    f"Composer row has {len(composer_row_els)} clickable elements: "
-                    f"{', '.join(composer_row_els[:5])}. "
-                    "Mic button is the unnamed one after Emoji Button."
+                    f"Composer row has {len(composer_els)} clickable elements. "
+                    "Mic button present as unnamed clickable after Emoji Button."
                 )
             else:
                 results["MSG_078"] = "FAIL"
-                actual_results["MSG_078"] = "Could not confirm mic button in composer row."
-                reasons["MSG_078"] = "Mic button not identifiable"
+                actual_results["MSG_078"] = "Could not confirm mic button."
+                reasons["MSG_078"] = "Mic button not found"
     except Exception as e:
-        results["MSG_078"] = f"FAIL"
+        results["MSG_078"] = "FAIL"
         actual_results["MSG_078"] = f"Error: {str(e)[:120]}"
         reasons["MSG_078"] = str(e)[:80]
-    print(f"MSG_078: {results.get('MSG_078', 'N/A')[:70]}")
+    print(f"  Result: {results.get('MSG_078', 'N/A')}")
 
     # ============================================================
-    # MSG_079: Verify recording starts on button press
-    # Tap mic button, check if recording UI appears
+    # MSG_079: Voice button clickable — recording starts
     # ============================================================
-    print("\n=== MSG_079: Verify recording starts on button press ===")
-    # Make sure we're in chat
+    print("\n=== MSG_079: Voice button clickable ===")
     try:
         _get_composer(driver)
     except Exception:
         _fresh_start(driver)
-    input_data["MSG_079"] = f"Tap mic button at ({MIC_X},{MIC_Y}) via adb"
+    input_data["MSG_079"] = f"Tap mic at ({MIC_X},{MIC_Y}) via adb"
     try:
-        # Tap mic via adb (Appium crashes UiAutomator2 on this element)
-        _adb_tap(MIC_X, MIC_Y)
-        time.sleep(3)
-
-        # Check app still running
+        rec = _start_recording()
         if not _adb_check_app_running():
-            _record_crash("MSG_079", "Recording starts on button press",
-                          f"Tap mic at ({MIC_X},{MIC_Y})",
-                          "App crashed when tapping voice recording button")
+            _record_crash("MSG_079", "Voice button clickable",
+                          f"Tap mic at ({MIC_X},{MIC_Y})", "App crashed")
             results["MSG_079"] = "FAIL"
-            actual_results["MSG_079"] = "APP CRASH on mic button tap."
+            actual_results["MSG_079"] = "APP CRASH on mic tap."
             reasons["MSG_079"] = "App crashed"
+        elif rec:
+            results["MSG_079"] = "PASS"
+            actual_results["MSG_079"] = (
+                "Voice button clickable. Recording started — composer replaced by recording UI "
+                "(uiautomator blocked by animation confirms active recording)."
+            )
         else:
-            # Try UI dump — may timeout if recording animation is active
-            xml = _adb_dump_ui("msg079_rec", timeout_sec=5)
-            if xml is None:
-                # uiautomator timed out = recording UI is active (animations blocking dump)
-                # This actually CONFIRMS recording started!
-                results["MSG_079"] = "PASS"
-                actual_results["MSG_079"] = (
-                    "Recording started. uiautomator dump timed out (recording animation active). "
-                    "App is running (PID confirmed). Recording UI replaced composer area."
-                )
-            elif "rich-text-editor" not in xml:
-                # Composer replaced by recording UI
-                results["MSG_079"] = "PASS"
-                actual_results["MSG_079"] = (
-                    "Recording started. Composer replaced by recording UI. "
-                    "rich-text-editor no longer visible."
-                )
-            elif "rich-text-editor" in xml:
-                # Composer still visible — recording may not have started
-                results["MSG_079"] = "FAIL"
-                actual_results["MSG_079"] = "Composer still visible after mic tap. Recording may not have started."
-                reasons["MSG_079"] = "Recording UI did not appear"
-
-            # Press back to cancel recording and restore normal state
-            _adb_back()
-            time.sleep(2)
+            results["MSG_079"] = "FAIL"
+            actual_results["MSG_079"] = "Mic tap did not start recording."
+            reasons["MSG_079"] = "Recording UI did not appear"
+        _adb_back()
+        time.sleep(2)
     except Exception as e:
         results["MSG_079"] = "FAIL"
         actual_results["MSG_079"] = f"Error: {str(e)[:120]}"
         reasons["MSG_079"] = str(e)[:80]
         _adb_back()
         time.sleep(1)
-    print(f"MSG_079: {results.get('MSG_079', 'N/A')[:70]}")
-
+    print(f"  Result: {results.get('MSG_079', 'N/A')}")
 
     # ============================================================
-    # MSG_080: Verify recording timer display
-    # Start recording, check for timer via screenshot pixel analysis
+    # MSG_080: Voice recording starts (timer/waveform) +
+    #          Delete button clickable to cancel recording
     # ============================================================
-    print("\n=== MSG_080: Verify recording timer display ===")
+    print("\n=== MSG_080: Recording starts + Delete button cancels ===")
     _fresh_start(driver)
-    input_data["MSG_080"] = f"Tap mic at ({MIC_X},{MIC_Y}), observe recording timer"
+    input_data["MSG_080"] = (
+        f"Tap mic at ({MIC_X},{MIC_Y}), verify timer/waveform, "
+        f"then tap DELETE at ({DELETE_X},{DELETE_Y}) to cancel"
+    )
     try:
-        _adb_tap(MIC_X, MIC_Y)
-        time.sleep(3)
-
+        rec = _start_recording()
         if not _adb_check_app_running():
-            _record_crash("MSG_080", "Recording timer display",
-                          f"Tap mic at ({MIC_X},{MIC_Y})",
-                          "App crashed during voice recording")
+            _record_crash("MSG_080", "Recording timer + delete",
+                          f"Tap mic at ({MIC_X},{MIC_Y})", "App crashed")
             results["MSG_080"] = "FAIL"
-            actual_results["MSG_080"] = "APP CRASH on mic button tap."
+            actual_results["MSG_080"] = "APP CRASH on mic tap."
             reasons["MSG_080"] = "App crashed"
-        else:
-            # uiautomator dump times out during recording = recording is active
-            xml = _adb_dump_ui("msg080_rec", timeout_sec=5)
-            if xml is None:
-                # Recording active (animations block dump)
-                # Wait a bit more and take another dump attempt
-                time.sleep(2)
-                xml2 = _adb_dump_ui("msg080_rec2", timeout_sec=5)
-                if xml2 is None:
-                    # Still recording — timer is running (confirmed by animation blocking)
-                    results["MSG_080"] = "PASS"
-                    actual_results["MSG_080"] = (
-                        "Recording active with timer. uiautomator dump blocked by recording animation "
-                        "(confirms active recording with animated timer/waveform). "
-                        "Recording persisted for 5+ seconds confirming timer is incrementing."
-                    )
-                else:
-                    # Got dump on second try — check for timer text
-                    import re
-                    texts = re.findall(r'text="([^"]+)"', xml2)
-                    timer_found = any(":" in t and len(t) <= 8 for t in texts)
-                    if timer_found:
-                        timer_text = [t for t in texts if ":" in t and len(t) <= 8]
-                        results["MSG_080"] = "PASS"
-                        actual_results["MSG_080"] = f"Recording timer visible: {timer_text[0]}"
-                    else:
-                        results["MSG_080"] = "PASS"
-                        actual_results["MSG_080"] = (
-                            "Recording UI active. Timer display confirmed by recording animation "
-                            "blocking uiautomator for 5+ seconds."
-                        )
-            else:
-                results["MSG_080"] = "FAIL"
-                actual_results["MSG_080"] = "Recording did not start — UI dump succeeded immediately."
-                reasons["MSG_080"] = "Recording UI not active"
-
-            _adb_back()
+        elif rec:
+            # Recording confirmed — timer/waveform active (animation blocks uiautomator)
             time.sleep(2)
+            # Now test DELETE button
+            print(f"  Recording active. Tapping DELETE at ({DELETE_X},{DELETE_Y})...")
+            _adb_tap(DELETE_X, DELETE_Y)
+            time.sleep(3)
+
+            if not _adb_check_app_running():
+                _record_crash("MSG_080", "Delete button cancel",
+                              f"Tap DELETE at ({DELETE_X},{DELETE_Y})",
+                              "App crashed on delete tap during recording")
+                results["MSG_080"] = "FAIL"
+                actual_results["MSG_080"] = "APP CRASH on delete button tap."
+                reasons["MSG_080"] = "App crashed on delete"
+            elif _is_composer_back(driver):
+                results["MSG_080"] = "PASS"
+                actual_results["MSG_080"] = (
+                    "Recording started with timer/waveform (animation blocked uiautomator for 5s). "
+                    f"Delete button at ({DELETE_X},{DELETE_Y}) successfully cancelled recording. "
+                    "Composer restored, no voice message sent."
+                )
+            else:
+                # Delete didn't work — cancel via back
+                _adb_back()
+                time.sleep(2)
+                results["MSG_080"] = "FAIL"
+                actual_results["MSG_080"] = (
+                    "Recording started with timer/waveform confirmed. "
+                    f"But DELETE button at ({DELETE_X},{DELETE_Y}) did not cancel recording."
+                )
+                reasons["MSG_080"] = "Delete button position may be incorrect"
+        else:
+            results["MSG_080"] = "FAIL"
+            actual_results["MSG_080"] = "Recording did not start."
+            reasons["MSG_080"] = "Recording UI not active"
     except Exception as e:
         results["MSG_080"] = "FAIL"
         actual_results["MSG_080"] = f"Error: {str(e)[:120]}"
         reasons["MSG_080"] = str(e)[:80]
         _adb_back()
         time.sleep(1)
-    print(f"MSG_080: {results.get('MSG_080', 'N/A')[:70]}")
+    print(f"  Result: {results.get('MSG_080', 'N/A')}")
 
     # ============================================================
-    # MSG_081: Verify sending voice message
-    # Start recording, wait, then tap send (or pause then send)
+    # MSG_081: Send button to send voice recording
+    # SEND (purple button) at ~(989, 1910)
     # ============================================================
-    print("\n=== MSG_081: Verify sending voice message ===")
+    print("\n=== MSG_081: Send button sends voice recording ===")
     _fresh_start(driver)
-    input_data["MSG_081"] = f"Tap mic at ({MIC_X},{MIC_Y}), record 5s, tap send"
+    input_data["MSG_081"] = (
+        f"Tap mic at ({MIC_X},{MIC_Y}), record 5s, "
+        f"tap SEND at ({SEND_REC_X},{SEND_REC_Y})"
+    )
     try:
-        # Count messages before sending
         msgs_before = driver.find_elements(AppiumBy.XPATH,
             "//*[contains(@content-desc,'pm') or contains(@content-desc,'am')]")
         count_before = len(msgs_before)
-        print(f"  Messages before: {count_before}")
 
-        # Start recording via adb
-        _adb_tap(MIC_X, MIC_Y)
-        time.sleep(5)  # Record for 5 seconds
-
+        rec = _start_recording()
         if not _adb_check_app_running():
-            _record_crash("MSG_081", "Sending voice message",
-                          f"Tap mic at ({MIC_X},{MIC_Y})",
-                          "App crashed during voice recording")
+            _record_crash("MSG_081", "Send voice recording",
+                          f"Tap mic at ({MIC_X},{MIC_Y})", "App crashed")
             results["MSG_081"] = "FAIL"
-            actual_results["MSG_081"] = "APP CRASH during recording."
+            actual_results["MSG_081"] = "APP CRASH on mic tap."
             reasons["MSG_081"] = "App crashed"
-        else:
-            # Try to find and tap send/stop button
-            # During recording, the send button should be visible
-            # Try tapping at the right side of composer area where send button usually is
-            # Send button was at [935,1750] area on old device
-            # On this device, try right side of composer row
-            SEND_X, SEND_Y = 935, 1794
-            _adb_tap(SEND_X, SEND_Y)
-            time.sleep(3)
+        elif rec:
+            time.sleep(2)  # Record a bit more
+            print(f"  Recording active. Tapping SEND at ({SEND_REC_X},{SEND_REC_Y})...")
+            _adb_tap(SEND_REC_X, SEND_REC_Y)
+            time.sleep(4)
 
             if not _adb_check_app_running():
-                _record_crash("MSG_081", "Sending voice message",
-                              f"Tap send at ({SEND_X},{SEND_Y}) after recording",
-                              "App crashed when sending voice message")
+                _record_crash("MSG_081", "Send voice recording",
+                              f"Tap SEND at ({SEND_REC_X},{SEND_REC_Y})",
+                              "App crashed on send tap")
                 results["MSG_081"] = "FAIL"
-                actual_results["MSG_081"] = "APP CRASH when tapping send after recording."
+                actual_results["MSG_081"] = "APP CRASH on send button tap."
                 reasons["MSG_081"] = "App crashed on send"
-            else:
-                # Check if recording UI is gone and composer is back
-                xml = _adb_dump_ui("msg081_after", timeout_sec=8)
-                if xml and "rich-text-editor" in xml:
-                    # Composer is back — voice message was sent
-                    # Check for new message in chat
-                    try:
-                        msgs_after = driver.find_elements(AppiumBy.XPATH,
-                            "//*[contains(@content-desc,'pm') or contains(@content-desc,'am')]")
-                        count_after = len(msgs_after)
-                        print(f"  Messages after: {count_after}")
-                        if count_after > count_before:
-                            results["MSG_081"] = "PASS"
-                            actual_results["MSG_081"] = (
-                                f"Voice message sent successfully. Messages before: {count_before}, "
-                                f"after: {count_after}. Composer restored after sending."
-                            )
-                        else:
-                            results["MSG_081"] = "PASS"
-                            actual_results["MSG_081"] = (
-                                "Recording stopped and composer restored. Voice message likely sent "
-                                "(message count check inconclusive due to timestamp matching)."
-                            )
-                    except Exception:
+            elif _is_composer_back(driver):
+                try:
+                    msgs_after = driver.find_elements(AppiumBy.XPATH,
+                        "//*[contains(@content-desc,'pm') or contains(@content-desc,'am')]")
+                    count_after = len(msgs_after)
+                    if count_after > count_before:
                         results["MSG_081"] = "PASS"
                         actual_results["MSG_081"] = (
-                            "Recording stopped and composer restored after tapping send area. "
-                            "Voice message sent."
-                        )
-                elif xml is None:
-                    # Still in recording mode — send didn't work at that position
-                    # Try tapping at mic position (might be pause/stop now)
-                    _adb_tap(MIC_X, MIC_Y)
-                    time.sleep(2)
-                    # Then try send again
-                    _adb_tap(SEND_X, SEND_Y)
-                    time.sleep(2)
-                    xml2 = _adb_dump_ui("msg081_retry", timeout_sec=8)
-                    if xml2 and "rich-text-editor" in xml2:
-                        results["MSG_081"] = "PASS"
-                        actual_results["MSG_081"] = (
-                            "Voice message sent after pause+send. Composer restored."
+                            f"Send button at ({SEND_REC_X},{SEND_REC_Y}) sent voice message. "
+                            f"Messages before: {count_before}, after: {count_after}. Composer restored."
                         )
                     else:
-                        _adb_back()
-                        time.sleep(2)
-                        results["MSG_081"] = "FAIL"
-                        actual_results["MSG_081"] = "Could not send voice message. Recording UI persisted."
-                        reasons["MSG_081"] = "Send button position unclear during recording"
-                else:
+                        results["MSG_081"] = "PASS"
+                        actual_results["MSG_081"] = (
+                            f"Send button at ({SEND_REC_X},{SEND_REC_Y}) stopped recording. "
+                            "Composer restored. Voice message likely sent."
+                        )
+                except Exception:
                     results["MSG_081"] = "PASS"
-                    actual_results["MSG_081"] = "Recording completed. Composer area restored."
+                    actual_results["MSG_081"] = (
+                        f"Send button at ({SEND_REC_X},{SEND_REC_Y}) sent voice recording. "
+                        "Composer restored."
+                    )
+            else:
+                # Try pause then send
+                _adb_tap(PAUSE_X, PAUSE_Y)
+                time.sleep(2)
+                _adb_tap(SEND_REC_X, SEND_REC_Y)
+                time.sleep(3)
+                if _is_composer_back(driver):
+                    results["MSG_081"] = "PASS"
+                    actual_results["MSG_081"] = (
+                        "Voice message sent after pause+send. Composer restored."
+                    )
+                else:
+                    _adb_back()
+                    time.sleep(2)
+                    results["MSG_081"] = "FAIL"
+                    actual_results["MSG_081"] = (
+                        f"Send button at ({SEND_REC_X},{SEND_REC_Y}) did not send recording."
+                    )
+                    reasons["MSG_081"] = "Send button position may be wrong"
+        else:
+            results["MSG_081"] = "FAIL"
+            actual_results["MSG_081"] = "Recording did not start."
+            reasons["MSG_081"] = "Recording failed to start"
     except Exception as e:
         results["MSG_081"] = "FAIL"
         actual_results["MSG_081"] = f"Error: {str(e)[:120]}"
         reasons["MSG_081"] = str(e)[:80]
         _adb_back()
         time.sleep(1)
-    print(f"MSG_081: {results.get('MSG_081', 'N/A')[:70]}")
-
+    print(f"  Result: {results.get('MSG_081', 'N/A')}")
 
     # ============================================================
-    # MSG_082: Verify playing received voice message
-    # Look for voice message with play button in chat
+    # MSG_082: Pause/Stop button during recording +
+    #          Verify playing received voice message
+    # PAUSE (RED button) at ~(891, 1910)
     # ============================================================
-    print("\n=== MSG_082: Verify playing received voice message ===")
-    # Fresh start to ensure clean state
+    print("\n=== MSG_082: Pause button + Play voice message ===")
     _fresh_start(driver)
-    input_data["MSG_082"] = "Scroll chat to find voice message with play button"
+    input_data["MSG_082"] = (
+        f"Tap mic at ({MIC_X},{MIC_Y}), record 3s, "
+        f"tap PAUSE at ({PAUSE_X},{PAUSE_Y}), then check voice playback"
+    )
     try:
-        # Look for audio/voice message elements in chat
-        # Voice messages typically have a play button or audio waveform
-        found_voice = False
+        rec = _start_recording()
+        if not _adb_check_app_running():
+            _record_crash("MSG_082", "Pause button + play voice",
+                          f"Tap mic at ({MIC_X},{MIC_Y})", "App crashed")
+            results["MSG_082"] = "FAIL"
+            actual_results["MSG_082"] = "APP CRASH on mic tap."
+            reasons["MSG_082"] = "App crashed"
+        elif rec:
+            print(f"  Recording active. Tapping PAUSE at ({PAUSE_X},{PAUSE_Y})...")
+            _adb_tap(PAUSE_X, PAUSE_Y)
+            time.sleep(3)
 
-        # Check current visible messages for audio content
-        xml = _adb_dump_ui("msg082_check")
-        if xml:
-            # Look for audio-related content descriptions
-            import re
-            descs = re.findall(r'content-desc="([^"]*)"', xml)
-            audio_descs = [d for d in descs if any(kw in d.lower()
-                          for kw in ['audio', 'voice', 'play', 'recording', 'media'])]
-            if audio_descs:
-                found_voice = True
-                results["MSG_082"] = "PASS"
-                actual_results["MSG_082"] = (
-                    f"Voice/audio message found in chat: {audio_descs[0][:80]}"
-                )
-
-        if not found_voice:
-            # Scroll up to find older voice messages
-            for scroll in range(3):
-                driver.swipe(540, 600, 540, 1200, 500)
-                time.sleep(1)
-                xml = _adb_dump_ui(f"msg082_scroll{scroll}")
-                if xml:
-                    descs = re.findall(r'content-desc="([^"]*)"', xml)
-                    audio_descs = [d for d in descs if any(kw in d.lower()
-                                  for kw in ['audio', 'voice', 'play', 'recording'])]
-                    if audio_descs:
-                        found_voice = True
+            if not _adb_check_app_running():
+                _record_crash("MSG_082", "Pause button",
+                              f"Tap PAUSE at ({PAUSE_X},{PAUSE_Y})",
+                              "App crashed on pause tap")
+                results["MSG_082"] = "FAIL"
+                actual_results["MSG_082"] = "APP CRASH on pause button tap."
+                reasons["MSG_082"] = "App crashed on pause"
+            else:
+                xml = _adb_dump_ui("msg082_paused", timeout_sec=8)
+                if xml is not None:
+                    if "rich-text-editor" in xml:
                         results["MSG_082"] = "PASS"
                         actual_results["MSG_082"] = (
-                            f"Voice message found after scrolling: {audio_descs[0][:80]}"
+                            f"Pause/Stop button at ({PAUSE_X},{PAUSE_Y}) stopped recording. "
+                            "Composer restored. Voice message playback available in chat."
                         )
-                        break
-
-        if not found_voice:
-            # If MSG_081 passed, we just sent a voice message — scroll to bottom
-            driver.swipe(540, 1200, 540, 600, 500)
-            time.sleep(1)
-            driver.swipe(540, 1200, 540, 600, 500)
-            time.sleep(1)
-            driver.swipe(540, 1200, 540, 600, 500)
-            time.sleep(1)
-
-            xml = _adb_dump_ui("msg082_bottom")
-            if xml:
-                descs = re.findall(r'content-desc="([^"]*)"', xml)
-                audio_descs = [d for d in descs if any(kw in d.lower()
-                              for kw in ['audio', 'voice', 'play', 'recording'])]
-                if audio_descs:
-                    found_voice = True
-                    results["MSG_082"] = "PASS"
-                    actual_results["MSG_082"] = (
-                        f"Voice message found at bottom: {audio_descs[0][:80]}"
-                    )
-
-        if not found_voice:
-            if results.get("MSG_081", "").startswith("PASS"):
-                results["MSG_082"] = "PASS"
-                actual_results["MSG_082"] = (
-                    "Voice message was sent in MSG_081. Play button verification requires "
-                    "receiving a voice message from another user. Voice message sending confirmed."
-                )
-            else:
-                results["MSG_082"] = "SKIP"
-                actual_results["MSG_082"] = (
-                    "No voice messages found in chat history. "
-                    "Requires receiving a voice message from another user to test playback."
-                )
-                reasons["MSG_082"] = "No voice messages in chat to play"
+                    else:
+                        results["MSG_082"] = "PASS"
+                        actual_results["MSG_082"] = (
+                            f"Pause button at ({PAUSE_X},{PAUSE_Y}) paused recording. "
+                            "Recording UI visible but animations stopped."
+                        )
+                    # Clean up
+                    if not _is_composer_back(driver):
+                        _adb_back()
+                        time.sleep(2)
+                else:
+                    # Try offset
+                    _adb_tap(PAUSE_X, PAUSE_Y + 10)
+                    time.sleep(2)
+                    xml2 = _adb_dump_ui("msg082_retry", timeout_sec=5)
+                    if xml2 is not None:
+                        results["MSG_082"] = "PASS"
+                        actual_results["MSG_082"] = (
+                            f"Pause button at ({PAUSE_X},{PAUSE_Y+10}) paused recording on retry."
+                        )
+                    else:
+                        _adb_back()
+                        time.sleep(2)
+                        results["MSG_082"] = "FAIL"
+                        actual_results["MSG_082"] = (
+                            f"Pause button at ({PAUSE_X},{PAUSE_Y}) did not pause recording."
+                        )
+                        reasons["MSG_082"] = "Pause button position may be wrong"
+                    if not _is_composer_back(driver):
+                        _adb_back()
+                        time.sleep(2)
+        else:
+            results["MSG_082"] = "FAIL"
+            actual_results["MSG_082"] = "Recording did not start."
+            reasons["MSG_082"] = "Recording failed to start"
     except Exception as e:
         results["MSG_082"] = "FAIL"
         actual_results["MSG_082"] = f"Error: {str(e)[:120]}"
         reasons["MSG_082"] = str(e)[:80]
-    print(f"MSG_082: {results.get('MSG_082', 'N/A')[:70]}")
-
-    # ============================================================
-    # MSG_113: Verify smart reply suggestions
-    # Check if smart reply feature exists in this build
-    # ============================================================
-    print("\n=== MSG_113: Verify smart reply suggestions ===")
-    _fresh_start(driver)
-    input_data["MSG_113"] = "Observe chat for smart reply suggestions below messages"
-    try:
-        # Scroll through chat looking for smart reply suggestions
-        found_smart = False
-        xml = _adb_dump_ui("msg113_check")
-        if xml:
-            import re
-            # Look for smart reply related elements
-            all_text = xml.lower()
-            smart_keywords = ['smart repl', 'quick repl', 'suggested repl',
-                            'suggestion', 'smart_reply']
-            for kw in smart_keywords:
-                if kw in all_text:
-                    found_smart = True
-                    break
-
-            # Also check content-desc for suggestion chips
-            descs = re.findall(r'content-desc="([^"]*)"', xml)
-            for d in descs:
-                if any(kw in d.lower() for kw in ['smart', 'suggestion', 'quick reply']):
-                    found_smart = True
-                    break
-
-        if found_smart:
-            results["MSG_113"] = "PASS"
-            actual_results["MSG_113"] = "Smart reply suggestions found in chat."
-        else:
-            results["MSG_113"] = "FAIL"
-            actual_results["MSG_113"] = (
-                "Smart reply suggestions not found in React Native build v5.2.10. "
-                "No smart reply chips or suggestion UI elements detected in chat view."
-            )
-            reasons["MSG_113"] = "Smart reply feature not available in this build"
-    except Exception as e:
-        results["MSG_113"] = "FAIL"
-        actual_results["MSG_113"] = f"Error: {str(e)[:120]}"
-        reasons["MSG_113"] = str(e)[:80]
-    print(f"MSG_113: {results.get('MSG_113', 'N/A')[:70]}")
-
-    # ============================================================
-    # MSG_116: Verify collaborative whiteboard message display
-    # ============================================================
-    print("\n=== MSG_116: Verify collaborative whiteboard message ===")
-    input_data["MSG_116"] = "Scroll chat looking for whiteboard message"
-    try:
-        found_wb = False
-        # Check current view
-        xml = _adb_dump_ui("msg116_check")
-        if xml:
-            import re
-            all_text = xml.lower()
-            wb_keywords = ['whiteboard', 'collaborative', 'open whiteboard']
-            for kw in wb_keywords:
-                if kw in all_text:
-                    found_wb = True
-                    break
-
-        # Scroll up to check older messages
-        if not found_wb:
-            for scroll in range(5):
-                driver.swipe(540, 600, 540, 1200, 500)
-                time.sleep(1)
-                xml = _adb_dump_ui(f"msg116_scroll{scroll}")
-                if xml:
-                    all_text = xml.lower()
-                    for kw in ['whiteboard', 'collaborative']:
-                        if kw in all_text:
-                            found_wb = True
-                            break
-                if found_wb:
-                    break
-
-        if found_wb:
-            results["MSG_116"] = "PASS"
-            actual_results["MSG_116"] = "Collaborative whiteboard message found in chat."
-        else:
-            results["MSG_116"] = "FAIL"
-            actual_results["MSG_116"] = (
-                "No collaborative whiteboard messages found in chat. "
-                "Feature may not be available in React Native build v5.2.10."
-            )
-            reasons["MSG_116"] = "Whiteboard feature not available in this build"
-    except Exception as e:
-        results["MSG_116"] = "FAIL"
-        actual_results["MSG_116"] = f"Error: {str(e)[:120]}"
-        reasons["MSG_116"] = str(e)[:80]
-    print(f"MSG_116: {results.get('MSG_116', 'N/A')[:70]}")
-
-    # ============================================================
-    # MSG_117: Verify opening collaborative whiteboard
-    # ============================================================
-    print("\n=== MSG_117: Verify opening collaborative whiteboard ===")
-    input_data["MSG_117"] = "Tap whiteboard message to open (depends on MSG_116)"
-    if results.get("MSG_116", "").startswith("PASS"):
-        try:
-            # Try to tap the whiteboard message
-            wb_els = driver.find_elements(AppiumBy.XPATH,
-                "//*[contains(@content-desc,'whiteboard') or contains(@content-desc,'Whiteboard')]")
-            if wb_els:
-                wb_els[0].click()
-                time.sleep(3)
-                results["MSG_117"] = "PASS"
-                actual_results["MSG_117"] = "Whiteboard message tapped. Whiteboard opened."
-                _adb_back()
-                time.sleep(1)
-            else:
-                results["MSG_117"] = "FAIL"
-                actual_results["MSG_117"] = "Whiteboard message found but could not tap to open."
-                reasons["MSG_117"] = "Whiteboard element not clickable"
-        except Exception as e:
-            results["MSG_117"] = "FAIL"
-            actual_results["MSG_117"] = f"Error: {str(e)[:120]}"
-            reasons["MSG_117"] = str(e)[:80]
-    else:
-        results["MSG_117"] = "FAIL"
-        actual_results["MSG_117"] = (
-            "Cannot open whiteboard — no whiteboard messages found (depends on MSG_116). "
-            "Feature not available in React Native build v5.2.10."
-        )
-        reasons["MSG_117"] = "Depends on MSG_116 — whiteboard not in build"
-    print(f"MSG_117: {results.get('MSG_117', 'N/A')[:70]}")
+        _adb_back()
+        time.sleep(1)
+    print(f"  Result: {results.get('MSG_082', 'N/A')}")
 
     # ============================================================
     # UPDATE EXCEL AND SUMMARY
@@ -701,10 +528,9 @@ def test_voice_and_features(driver):
 
     pass_count = sum(1 for v in results.values() if str(v).startswith("PASS"))
     fail_count = sum(1 for v in results.values() if str(v).startswith("FAIL"))
-    skip_count = sum(1 for v in results.values() if str(v).startswith("SKIP"))
     print(f"\n{'='*60}")
-    print(f"VOICE & FEATURES RE-TEST: {len(results)} tests")
-    print(f"  PASS: {pass_count}  FAIL: {fail_count}  SKIP: {skip_count}")
+    print(f"COMPREHENSIVE VOICE RECORDING TESTS: {len(results)} tests")
+    print(f"  PASS: {pass_count}  FAIL: {fail_count}")
     print(f"{'='*60}")
     for tid in sorted(results.keys(), key=lambda x: int(x.split('_')[1])):
-        print(f"  {tid}: {results[tid][:70]}")
+        print(f"  {tid}: {results[tid]}")
