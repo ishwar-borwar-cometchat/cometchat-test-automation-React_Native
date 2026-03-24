@@ -13,10 +13,10 @@ Sections:
   7. Negative Tests (MSG_001-MSG_022) — Negative sheet
 
 Usage:
-  python3 -m pytest test_all_send_message_composer.py -v -s -k "test_positive"
-  python3 -m pytest test_all_send_message_composer.py -v -s -k "test_negative"
-  python3 -m pytest test_all_send_message_composer.py -v -s -k "test_voice"
-  python3 -m pytest test_all_send_message_composer.py -v -s  # run all
+  python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s -k "test_positive"
+  python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s -k "test_negative"
+  python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s -k "test_voice"
+  python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s  # run all
 """
 import time
 import subprocess
