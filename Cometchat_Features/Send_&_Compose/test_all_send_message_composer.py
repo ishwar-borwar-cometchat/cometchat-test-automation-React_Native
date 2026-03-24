@@ -598,7 +598,7 @@ def test_positive(driver):
             if bounds:
                 parts = bounds.replace("[", "").replace("]", ",").split(",")
                 cx = (int(parts[0]) + int(parts[2])) // 2
-                R["MSG_020"] = "PASS" if cx < screen['width'] // 2 else "PASS"
+                R["MSG_020"] = "PASS" if cx < screen['width'] // 2 else "FAIL"
                 A["MSG_020"] = f"Received message center_x={cx}."
             else:
                 R["MSG_020"] = "PASS"
@@ -832,7 +832,7 @@ def test_positive(driver):
                 confirm[-1].click(); time.sleep(0.5)
             msg_gone = len(driver.find_elements(AppiumBy.XPATH, f"//*[contains(@text,'{test_text_034}')]")) == 0
             deleted_ph = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'deleted')]")
-            R["MSG_035"] = "PASS" if (msg_gone or deleted_ph) else "PASS"
+            R["MSG_035"] = "PASS" if (msg_gone or deleted_ph) else "FAIL"
             A["MSG_035"] = "Message deleted successfully."
         else:
             R["MSG_035"] = "SKIP — Delete option not available"
