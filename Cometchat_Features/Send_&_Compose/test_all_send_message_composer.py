@@ -127,8 +127,8 @@ def _open_chat(driver, user_name="Ishwar Borwar"):
                 els[0].click()
                 time.sleep(0.5)
                 return True
-            driver.swipe(screen['width'] // 2, screen['height'] * 2 // 3,
-                         screen['width'] // 2, screen['height'] // 3, 800)
+            driver.swipe(screen['width'] // 2, screen['height'] * 3 // 4,
+                         screen['width'] // 2, screen['height'] * 2 // 5, 800)
             time.sleep(0.5)
     except Exception:
         pass
@@ -588,8 +588,8 @@ def test_positive(driver):
     I["MSG_020"] = "(observe received messages)"
     try:
         screen = driver.get_window_size()
-        driver.swipe(screen['width'] // 2, screen['height'] // 3,
-                     screen['width'] // 2, screen['height'] * 2 // 3, 500)
+        driver.swipe(screen['width'] // 2, screen['height'] * 2 // 5,
+                     screen['width'] // 2, screen['height'] * 3 // 4, 500)
         time.sleep(0.3)
         first_msg = driver.find_elements(AppiumBy.XPATH,
             "//android.widget.TextView[@text!='' and string-length(@text) > 2]")
@@ -606,8 +606,8 @@ def test_positive(driver):
         else:
             R["MSG_020"] = "SKIP"
             A["MSG_020"] = "No received messages found."
-        driver.swipe(screen['width'] // 2, screen['height'] * 2 // 3,
-                     screen['width'] // 2, screen['height'] // 3, 500)
+        driver.swipe(screen['width'] // 2, screen['height'] * 3 // 4,
+                     screen['width'] // 2, screen['height'] * 2 // 5, 500)
         time.sleep(0.3)
     except Exception as e:
         R["MSG_020"] = f"FAIL — {str(e)[:80]}"
@@ -705,8 +705,8 @@ def test_positive(driver):
     I["MSG_029"] = msg029
     try:
         screen = driver.get_window_size()
-        driver.swipe(screen['width'] // 2, screen['height'] // 3,
-                     screen['width'] // 2, screen['height'] * 2 // 3, 500)
+        driver.swipe(screen['width'] // 2, screen['height'] * 2 // 5,
+                     screen['width'] // 2, screen['height'] * 3 // 4, 500)
         time.sleep(0.3)
         _send_message(driver, msg029); time.sleep(0.5)
         msg = w.until(EC.presence_of_element_located((
@@ -723,15 +723,15 @@ def test_positive(driver):
     try:
         screen = driver.get_window_size()
         for _ in range(3):
-            driver.swipe(screen['width'] // 2, screen['height'] // 3,
-                         screen['width'] // 2, screen['height'] * 2 // 3, 800)
+            driver.swipe(screen['width'] // 2, screen['height'] * 2 // 5,
+                         screen['width'] // 2, screen['height'] * 3 // 4, 800)
             time.sleep(0.3)
         has_content = driver.find_elements(AppiumBy.XPATH, "//android.widget.TextView[@text!='']")
         R["MSG_030"] = "PASS" if has_content else "FAIL"
         A["MSG_030"] = "Scrolled up. Messages visible."
         for _ in range(3):
-            driver.swipe(screen['width'] // 2, screen['height'] * 2 // 3,
-                         screen['width'] // 2, screen['height'] // 3, 800)
+            driver.swipe(screen['width'] // 2, screen['height'] * 3 // 4,
+                         screen['width'] // 2, screen['height'] * 2 // 5, 800)
             time.sleep(0.3)
     except Exception as e:
         R["MSG_030"] = f"FAIL — {str(e)[:80]}"
@@ -1306,7 +1306,7 @@ def test_positive(driver):
     try:
         screen = driver.get_window_size()
         for _ in range(4):
-            driver.swipe(screen['width']//2, screen['height']//3, screen['width']//2, screen['height']*2//3, 800)
+            driver.swipe(screen['width']//2, screen['height']*2//5, screen['width']//2, screen['height']*3//4, 800)
             time.sleep(0.3)
         time.sleep(0.5)
         scroll_btn = driver.find_elements(AppiumBy.XPATH,
@@ -1314,7 +1314,7 @@ def test_positive(driver):
         R["MSG_060"] = "PASS"
         A["MSG_060"] = "Scroll-to-bottom button appeared." if scroll_btn else "Scrolled up. Scroll indicator may be visual-only."
         for _ in range(4):
-            driver.swipe(screen['width']//2, screen['height']*2//3, screen['width']//2, screen['height']//3, 800)
+            driver.swipe(screen['width']//2, screen['height']*3//4, screen['width']//2, screen['height']*2//5, 800)
             time.sleep(0.3)
     except Exception as e:
         R["MSG_060"] = f"FAIL — {str(e)[:80]}"
@@ -1326,7 +1326,7 @@ def test_positive(driver):
     try:
         screen = driver.get_window_size()
         for _ in range(4):
-            driver.swipe(screen['width']//2, screen['height']//3, screen['width']//2, screen['height']*2//3, 800)
+            driver.swipe(screen['width']//2, screen['height']*2//5, screen['width']//2, screen['height']*3//4, 800)
             time.sleep(0.3)
         time.sleep(0.5)
         scroll_btn = driver.find_elements(AppiumBy.XPATH,
@@ -1337,7 +1337,7 @@ def test_positive(driver):
             A["MSG_061"] = "Tapped scroll-to-bottom. Scrolled to latest."
         else:
             for _ in range(4):
-                driver.swipe(screen['width']//2, screen['height']*2//3, screen['width']//2, screen['height']//3, 800)
+                driver.swipe(screen['width']//2, screen['height']*3//4, screen['width']//2, screen['height']*2//5, 800)
                 time.sleep(0.3)
             R["MSG_061"] = "SKIP — Scroll-to-bottom button not found"
             A["MSG_061"] = "No scroll-to-bottom button found."
