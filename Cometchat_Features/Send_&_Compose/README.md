@@ -1,6 +1,6 @@
 # Send Message, Single Line Composer & Rich Media Formatting
 
-📥 [Download SM_SLC_RMF_Test_Cases.xlsx](https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/raw/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx)
+[📄 View SM_SLC_RMF_Test_Cases.xlsx Online](https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx)
 
 ## Sheets
 

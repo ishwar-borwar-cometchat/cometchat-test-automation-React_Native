@@ -2,13 +2,13 @@
 
 Appium-based automated test suite for the **CometChat React Native Android** sample app (`v5.2.10`).
 
-## Test Coverage
+## Test Coverage (Click to View Online)
 
-| Sheet | Total TCs | Description |
-|-------|-----------|-------------|
-| [Positive](https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/raw/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) | 132 | Send Message, Emoji/Sticker, @Mention, Composer, Rich Media Formatting |
-| [Negative](https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/raw/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) | 22 | Empty/whitespace messages, injection attacks, voice edge cases |
-| [App Crash](https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/raw/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) | — | Crash log with device, build, timestamp, severity |
+| Sheet | Total TCs | Description | View Online |
+|-------|-----------|-------------|-------------|
+| Positive | 132 | Send Message, Emoji/Sticker, @Mention, Composer, Rich Media Formatting | [📄 Open](https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) |
+| Negative | 22 | Empty/whitespace messages, injection attacks, voice edge cases | [📄 Open](https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) |
+| App Crash | — | Crash log with device, build, timestamp, severity | [📄 Open](https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) |
 
 ### Execution Summary (Positive — 132 TCs)
 
@@ -113,7 +113,7 @@ Update `conftest.py` with your environment:
 
 ## Excel Report
 
-The test results are stored in [`SM_SLC_RMF_Test_Cases.xlsx`](https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/raw/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) with color-coded status:
+The test results are stored in [`SM_SLC_RMF_Test_Cases.xlsx`](https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/main/Cometchat_Features/Send_%26_Compose/SM_SLC_RMF_Test_Cases.xlsx) with color-coded status:
 
 - 🟢 **PASS** — Green (`#C6EFCE`)
 - 🔴 **FAIL** — Red (`#FFC7CE`)
@@ -128,3 +128,5 @@ Each row includes: Test Case ID, Sentiment, Scenario, Precondition, Steps, Expec
 - Smart reply feature not available in React Native build v5.2.10
 - Collaborative whiteboard messages not present in test chats
 - Sticker panel has no search or recent emojis section
+
+> **Note:** The repo must be **Public** for the online viewer links to work. If the repo is Private, you'll need to download the files to view them.
