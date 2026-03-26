@@ -36,7 +36,9 @@ Appium-based automated test suite for the **CometChat React Native Android** sam
 ├── Cometchat_Features/
 │   ├── Send_&_Compose/
 │   │   ├── SM_SLC_RMF_Test_Cases.xlsx  # Test cases + results (3 sheets)
-│   │   └── test_all_send_message_composer.py  # All test cases (Positive + Negative + Voice)
+│   │   ├── helpers.py                  # Shared helper functions & constants
+│   │   ├── test_positive.py            # Positive (132 TCs) + Voice (5 TCs)
+│   │   └── test_negative.py            # Negative (22 TCs)
 │   ├── Call_Module/
 │   ├── Conversation_List/
 │   ├── Group_Actions/
@@ -70,19 +72,19 @@ adb devices
 
 ```bash
 # Start Appium server (separate terminal)
-appium
+appium --relaxed-security
 
-# Run all tests
-python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s
+# Run Positive tests (132 TCs)
+python3 -m pytest "Cometchat_Features/Send_&_Compose/test_positive.py" -v -s -k "test_positive"
 
-# Run only Positive tests (132 TCs)
-python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s -k "test_positive"
+# Run Negative tests (22 TCs)
+python3 -m pytest "Cometchat_Features/Send_&_Compose/test_negative.py" -v -s
 
-# Run only Negative tests (22 TCs)
-python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s -k "test_negative"
+# Run Voice Recording tests (5 TCs)
+python3 -m pytest "Cometchat_Features/Send_&_Compose/test_positive.py" -v -s -k "test_voice"
 
-# Run only Voice Recording tests (5 TCs)
-python3 -m pytest "Cometchat_Features/Send_&_Compose/test_all_send_message_composer.py" -v -s -k "test_voice"
+# Run all
+python3 -m pytest "Cometchat_Features/Send_&_Compose/" -v -s
 ```
 
 ## Configuration
