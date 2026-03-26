@@ -10,6 +10,10 @@ __pycache__/
 # Git placeholders (no longer needed)
 .gitkeep
 
+# Node
+node_modules/
+package-lock.json
+
 # Appium
 screenshots/
 *.xml

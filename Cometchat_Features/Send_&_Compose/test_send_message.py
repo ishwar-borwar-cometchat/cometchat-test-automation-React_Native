@@ -1108,9 +1108,11 @@ def test_send_message(driver):
     print(f"MSG_037: {R['MSG_037']}")
 
     # ==================== PHASE 6: LONG PRESS MENU ACTIONS (MSG_038-MSG_053) ====================
-    # Send a fresh message for long-press tests
+    # Send a fresh PLAIN TEXT message for long-press tests (no URLs to avoid browser opening)
     lp_text = f"LongPressTest_{int(time.time())}"
     _send_message(driver, lp_text); time.sleep(0.5)
+    # XPath to find this specific message for safe long-press
+    LP_XPATH = f"//*[contains(@text,'{lp_text}')]"
 
     # MSG_038: Verify long press shows edit option
     I["MSG_038"] = lp_text
@@ -1158,16 +1160,17 @@ def test_send_message(driver):
     # MSG_040: Verify long press shows reply option
     I["MSG_040"] = "(long press on any message)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             reply_opt = _find_menu_option(driver, "Reply") or _find_menu_option(driver, "reply")
             R["MSG_040"] = "PASS" if reply_opt else "FAIL — Reply option not found"
             A["MSG_040"] = "Reply option found." if reply_opt else "Reply not found."
             _dismiss(driver)
         else:
-            R["MSG_040"] = "SKIP — No messages found"
+            R["MSG_040"] = "SKIP — Safe message not found"
             A["MSG_040"] = "No suitable messages."
     except Exception as e:
         R["MSG_040"] = f"FAIL — {str(e)[:80]}"
@@ -1178,10 +1181,11 @@ def test_send_message(driver):
     # MSG_041: Verify reply shows quoted message
     I["MSG_041"] = "(tap Reply, observe composer)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             reply_opt = _find_menu_option(driver, "Reply") or _find_menu_option(driver, "reply")
             if reply_opt:
                 reply_opt.click(); time.sleep(0.5)
@@ -1212,10 +1216,11 @@ def test_send_message(driver):
     reply_text = f"ReplyMsg_{int(time.time())}"
     I["MSG_042"] = reply_text
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             reply_opt = _find_menu_option(driver, "Reply") or _find_menu_option(driver, "reply")
             if reply_opt:
                 reply_opt.click(); time.sleep(0.5)
@@ -1243,10 +1248,11 @@ def test_send_message(driver):
     # MSG_043: Verify long press shows copy option
     I["MSG_043"] = "(long press on text message)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             copy_opt = _find_menu_option(driver, "Copy") or _find_menu_option(driver, "copy")
             R["MSG_043"] = "PASS" if copy_opt else "FAIL — Copy option not found"
             A["MSG_043"] = "Copy option found." if copy_opt else "Copy not found."
@@ -1263,10 +1269,11 @@ def test_send_message(driver):
     # MSG_044: Verify copying message text
     I["MSG_044"] = "(copy message, paste in composer)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             copy_opt = _find_menu_option(driver, "Copy") or _find_menu_option(driver, "copy")
             if copy_opt:
                 copy_opt.click(); time.sleep(0.5)
@@ -1288,10 +1295,11 @@ def test_send_message(driver):
     # MSG_045: Verify long press shows reaction option
     I["MSG_045"] = "(long press, observe reaction bar)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             R["MSG_045"] = "PASS"
             A["MSG_045"] = "Long press shows action menu with reaction bar."
             _dismiss(driver)
@@ -1307,10 +1315,11 @@ def test_send_message(driver):
     # MSG_046: Verify adding reaction to message
     I["MSG_046"] = "(long press, select reaction emoji)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(1.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(1.5)
             reaction = _find_menu_by_cd(driver, "👍")
             if reaction:
                 reaction.click(); time.sleep(0.5)
@@ -1348,10 +1357,11 @@ def test_send_message(driver):
     # MSG_048: Verify thread reply option available
     I["MSG_048"] = "(long press, observe thread option)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(1.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(1.5)
             thread_opt = _find_menu_by_cd(driver, "Reply in thread") or _find_menu_option(driver, "Thread")
             R["MSG_048"] = "PASS" if thread_opt else "SKIP — Thread option not found"
             A["MSG_048"] = "Thread reply option found." if thread_opt else "Thread not in menu."
@@ -1369,10 +1379,11 @@ def test_send_message(driver):
     I["MSG_049"] = "(tap thread reply option)"
     try:
         if "PASS" in R.get("MSG_048", ""):
-            msgs = driver.find_elements(AppiumBy.XPATH,
-                "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-            if msgs:
-                _long_press(driver, msgs[-1]); time.sleep(1.5)
+            lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+            if not lp_msg:
+                lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+            if lp_msg:
+                _long_press(driver, lp_msg[0]); time.sleep(1.5)
                 thread_opt = _find_menu_by_cd(driver, "Reply in thread") or _find_menu_option(driver, "Thread")
                 if thread_opt:
                     thread_opt.click(); time.sleep(1.5)
@@ -1399,10 +1410,11 @@ def test_send_message(driver):
     # MSG_050: Verify forward option available
     I["MSG_050"] = "(long press, observe forward option)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             fwd_opt = _find_menu_option(driver, "Forward") or _find_menu_option(driver, "Share")
             R["MSG_050"] = "PASS" if fwd_opt else "SKIP — Forward not found"
             A["MSG_050"] = "Forward option found." if fwd_opt else "Forward not in menu."
@@ -1420,10 +1432,11 @@ def test_send_message(driver):
     I["MSG_051"] = "(forward to another contact)"
     try:
         if "PASS" in R.get("MSG_050", ""):
-            msgs = driver.find_elements(AppiumBy.XPATH,
-                "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-            if msgs:
-                _long_press(driver, msgs[-1]); time.sleep(0.5)
+            lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+            if not lp_msg:
+                lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+            if lp_msg:
+                _long_press(driver, lp_msg[0]); time.sleep(0.5)
                 fwd_opt = _find_menu_option(driver, "Forward") or _find_menu_option(driver, "Share")
                 if fwd_opt:
                     fwd_opt.click(); time.sleep(1)
@@ -1452,10 +1465,11 @@ def test_send_message(driver):
     # MSG_052: Verify message info option available
     I["MSG_052"] = "(long press, observe info option)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(0.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(0.5)
             info_opt = _find_menu_by_cd(driver, "Info") or _find_menu_option(driver, "Info") or _find_menu_option(driver, "Message Info")
             R["MSG_052"] = "PASS" if info_opt else "SKIP — Info not found"
             A["MSG_052"] = "Message info option found." if info_opt else "Info not in menu."
@@ -1472,10 +1486,11 @@ def test_send_message(driver):
     # MSG_053: Verify message info shows delivery/read status
     I["MSG_053"] = "(tap Message Info)"
     try:
-        msgs = driver.find_elements(AppiumBy.XPATH,
-            "//android.widget.TextView[string-length(@text) > 3 and @text!='Type your message...']")
-        if msgs:
-            _long_press(driver, msgs[-1]); time.sleep(1.5)
+        lp_msg = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+        if not lp_msg:
+            lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+        if lp_msg:
+            _long_press(driver, lp_msg[0]); time.sleep(1.5)
             info_opt = _find_menu_by_cd(driver, "Info") or _find_menu_option(driver, "Info")
             if info_opt:
                 info_opt.click(); time.sleep(1.5)

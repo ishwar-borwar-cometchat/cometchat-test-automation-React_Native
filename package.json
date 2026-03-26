@@ -1,0 +1,21 @@
+{
+  "name": "react-native",
+  "version": "1.0.0",
+  "description": "Appium-based automated test suite for the **CometChat React Native Android** sample app (`v5.2.10`).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native/issues"
+  },
+  "homepage": "https://github.com/ishwar-borwar-cometchat/cometchat-test-automation-React_Native#readme"
+}
