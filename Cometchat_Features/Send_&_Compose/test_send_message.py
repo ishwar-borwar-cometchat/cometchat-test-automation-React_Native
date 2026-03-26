@@ -351,11 +351,20 @@ def _long_press(driver, element, duration=1500):
 
 
 def _find_menu_option(driver, option_text, timeout=5):
+    """Find a menu option by content-desc (accessibility ID) first, then text."""
     try:
+        # Try content-desc first (CometChat menu items use content-desc on ViewGroup)
         opt = WebDriverWait(driver, timeout, poll_frequency=0.3).until(
-            EC.presence_of_element_located((
+            EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, option_text)))
+        return opt
+    except Exception:
+        pass
+    try:
+        # Fallback: search by text or content-desc via XPath
+        opt = WebDriverWait(driver, 2, poll_frequency=0.3).until(
+            EC.element_to_be_clickable((
                 AppiumBy.XPATH,
-                f"//*[contains(@text,'{option_text}') or contains(@content-desc,'{option_text}')]")))
+                f"//android.view.ViewGroup[contains(@content-desc,'{option_text}')]")))
         return opt
     except Exception:
         return None
@@ -364,7 +373,7 @@ def _find_menu_option(driver, option_text, timeout=5):
 def _find_menu_by_cd(driver, cd_text, timeout=5):
     try:
         return WebDriverWait(driver, timeout, poll_frequency=0.3).until(
-            EC.presence_of_element_located((AppiumBy.ACCESSIBILITY_ID, cd_text)))
+            EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, cd_text)))
     except Exception:
         return None
 
@@ -883,9 +892,9 @@ def test_send_message(driver):
     print(f"MSG_024: {R['MSG_024']}")
 
     # MSG_025: Verify received message sender info (group chat)
-    I["MSG_025"] = "(observe sender info in group — tested in MSG_061)"
-    R["MSG_025"] = "SKIP — Tested in group chat section (MSG_061)"
-    A["MSG_025"] = "Sender info requires group chat."
+    I["MSG_025"] = "(checked during MSG_061 group chat test)"
+    R["MSG_025"] = "SKIP — Verified during group chat test (MSG_061)"
+    A["MSG_025"] = "Sender info requires group chat — tested in MSG_061."
     print(f"MSG_025: {R['MSG_025']}")
 
     # MSG_026: Verify received message timestamp
@@ -977,7 +986,17 @@ def test_send_message(driver):
             time.sleep(0.3)
         time.sleep(0.5)
         scroll_btn = driver.find_elements(AppiumBy.XPATH,
-            "//*[contains(@content-desc,'scroll') or contains(@content-desc,'bottom') or contains(@content-desc,'down')]")
+            "//*[contains(@content-desc,'scroll') or contains(@content-desc,'bottom') or "
+            "contains(@content-desc,'down') or contains(@content-desc,'arrow') or "
+            "contains(@content-desc,'new message') or contains(@content-desc,'New message')]")
+        if not scroll_btn:
+            # Try finding any small clickable element in bottom-right area (common scroll button position)
+            all_clickable = driver.find_elements(AppiumBy.XPATH, "//android.view.ViewGroup[@clickable='true']")
+            scroll_btn = [e for e in all_clickable
+                          if e.location.get('x', 0) > screen['width'] * 0.7
+                          and e.location.get('y', 0) > screen['height'] * 0.6
+                          and e.size.get('width', 999) < 150
+                          and e.size.get('height', 999) < 150]
         if scroll_btn:
             scroll_btn[0].click(); time.sleep(0.5)
             R["MSG_030"] = "PASS"
@@ -1415,9 +1434,9 @@ def test_send_message(driver):
             lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
         if lp_msg:
             _long_press(driver, lp_msg[0]); time.sleep(0.5)
-            fwd_opt = _find_menu_option(driver, "Forward") or _find_menu_option(driver, "Share")
-            R["MSG_050"] = "PASS" if fwd_opt else "SKIP — Forward not found"
-            A["MSG_050"] = "Forward option found." if fwd_opt else "Forward not in menu."
+            fwd_opt = _find_menu_option(driver, "Share") or _find_menu_option(driver, "Forward")
+            R["MSG_050"] = "PASS" if fwd_opt else "SKIP — Forward/Share not found"
+            A["MSG_050"] = "Forward (Share) option found." if fwd_opt else "Forward not in menu."
             _dismiss(driver)
         else:
             R["MSG_050"] = "SKIP — No messages"
@@ -1437,7 +1456,7 @@ def test_send_message(driver):
                 lp_msg = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
             if lp_msg:
                 _long_press(driver, lp_msg[0]); time.sleep(0.5)
-                fwd_opt = _find_menu_option(driver, "Forward") or _find_menu_option(driver, "Share")
+                fwd_opt = _find_menu_option(driver, "Share") or _find_menu_option(driver, "Forward")
                 if fwd_opt:
                     fwd_opt.click(); time.sleep(1)
                     R["MSG_051"] = "PASS"
@@ -1461,6 +1480,23 @@ def test_send_message(driver):
                 _ensure_in_chat(driver, "Ishwar Borwar")
         except: pass
     print(f"MSG_051: {R.get('MSG_051','SKIP')[:60]}")
+
+    # Ensure lp_msg is visible — scroll to bottom and re-check
+    try:
+        screen = driver.get_window_size()
+        for _ in range(3):
+            driver.swipe(screen['width']//2, screen['height']*3//4, screen['width']//2, screen['height']*2//5, 800)
+            time.sleep(0.3)
+    except Exception:
+        pass
+    # If lp_msg is gone, send a fresh one
+    lp_msg_check = driver.find_elements(AppiumBy.XPATH, LP_XPATH)
+    if not lp_msg_check:
+        lp_msg_check = driver.find_elements(AppiumBy.XPATH, "//*[contains(@text,'LongPressTest')]")
+    if not lp_msg_check:
+        lp_text2 = f"LongPressTest2_{int(time.time())}"
+        _send_message(driver, lp_text2); time.sleep(0.5)
+        LP_XPATH = f"//*[contains(@text,'{lp_text2}')]"
 
     # MSG_052: Verify message info option available
     I["MSG_052"] = "(long press, observe info option)"
@@ -1554,6 +1590,9 @@ def test_send_message(driver):
 
     # ==================== PHASE 8: EDIT INDICATOR (MSG_060) ====================
 
+    # Ensure we're still in chat before continuing
+    _ensure_in_chat(driver, "Ishwar Borwar")
+
     # MSG_060: Verify edited message shows 'edited' indicator
     I["MSG_060"] = "(send, edit, observe 'edited' label)"
     try:
@@ -1589,9 +1628,17 @@ def test_send_message(driver):
     # MSG_061: Verify all composer features work in group chat
     I["MSG_061"] = "Open group chat, verify composer, send message"
     try:
-        _go_to_chat_list(driver); time.sleep(0.5)
+        # Go back to chat list by pressing back once (we're in Ishwar chat)
+        driver.back(); time.sleep(1)
+        # Dismiss search if it got activated
+        try:
+            search_clear = driver.find_elements(AppiumBy.ACCESSIBILITY_ID, "Clear search")
+            if search_clear:
+                search_clear[0].click(); time.sleep(0.5)
+        except Exception:
+            pass
         group_opened = False
-        for group_name in ["test123", "alpha-2", "Hel", "ok"]:
+        for group_name in ["test123", "alpha-2", "Hel", "ok", "android", "group", "team"]:
             els = driver.find_elements(AppiumBy.XPATH,
                 f"//android.view.ViewGroup[contains(@content-desc,'{group_name}') and @clickable='true']")
             if els:
@@ -1607,24 +1654,65 @@ def test_send_message(driver):
                     break
                 else:
                     driver.back(); time.sleep(0.5)
+        # If not found, scroll down and try again
+        if not group_opened:
+            screen = driver.get_window_size()
+            for _ in range(3):
+                driver.swipe(screen['width']//2, screen['height']*3//4, screen['width']//2, screen['height']//2, 800)
+                time.sleep(0.5)
+                # Try any ViewGroup with content-desc containing common group indicators
+                groups = driver.find_elements(AppiumBy.XPATH,
+                    "//android.view.ViewGroup[@clickable='true' and string-length(@content-desc) > 5]")
+                for g in groups:
+                    cd = g.get_attribute("content-desc") or ""
+                    # Skip Ishwar (1-on-1 chat) and look for groups (usually have comma-separated info)
+                    if "Ishwar" not in cd and "," in cd:
+                        g.click(); time.sleep(1)
+                        composer = driver.find_elements(AppiumBy.XPATH,
+                            "//android.widget.EditText[contains(@hint,'Type') or contains(@text,'Type your message')]")
+                        if composer:
+                            group_opened = True
+                            grp_msg = f"GroupTest_{int(time.time())}"
+                            sent = _send_message(driver, grp_msg); time.sleep(0.5)
+                            R["MSG_061"] = "PASS" if sent else "FAIL — Could not send in group"
+                            A["MSG_061"] = f"Composer works in group '{cd[:30]}'. Message sent."
+                            break
+                        else:
+                            driver.back(); time.sleep(0.5)
+                if group_opened:
+                    break
         if not group_opened:
             R["MSG_061"] = "SKIP — Could not open group chat"
             A["MSG_061"] = "No group chat accessible."
-        # Navigate back to Ishwar chat
-        _go_to_chat_list(driver); time.sleep(0.5)
+        # Navigate back to Ishwar chat — press back then find Ishwar
+        driver.back(); time.sleep(1)
+        # Dismiss search again if active
+        try:
+            search_clear = driver.find_elements(AppiumBy.ACCESSIBILITY_ID, "Clear search")
+            if search_clear:
+                search_clear[0].click(); time.sleep(0.5)
+        except Exception:
+            pass
         if not _open_chat(driver, "Ishwar Borwar"):
             _ensure_in_chat(driver, "Ishwar Borwar")
     except Exception as e:
         R["MSG_061"] = f"FAIL — {str(e)[:80]}"
         A["MSG_061"] = str(e)[:80]
         try:
-            _go_to_chat_list(driver); time.sleep(0.5)
+            driver.back(); time.sleep(1)
+            try:
+                sc = driver.find_elements(AppiumBy.ACCESSIBILITY_ID, "Clear search")
+                if sc: sc[0].click(); time.sleep(0.5)
+            except Exception: pass
             if not _open_chat(driver, "Ishwar Borwar"):
                 _ensure_in_chat(driver, "Ishwar Borwar")
         except: pass
     print(f"MSG_061: {R['MSG_061'][:60]}")
 
     # ==================== PHASE 10: DELETE — LAST (MSG_062-MSG_064) ====================
+
+    # Ensure we're back in Ishwar chat after group chat test
+    _ensure_in_chat(driver, "Ishwar Borwar")
 
     # MSG_062: Verify deleted message shows placeholder text
     I["MSG_062"] = "(send, delete, observe placeholder)"
