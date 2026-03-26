@@ -1379,6 +1379,10 @@ def test_send_message(driver):
                     R["MSG_049"] = "PASS"
                     A["MSG_049"] = "Thread view opened."
                     driver.back(); time.sleep(0.5)
+                    # Verify still in chat after closing thread
+                    if not driver.find_elements(AppiumBy.XPATH,
+                        "//android.widget.EditText[contains(@hint,'Type') or contains(@text,'Type your message')]"):
+                        _ensure_in_chat(driver, "Ishwar Borwar")
                 else:
                     R["MSG_049"] = "SKIP — Thread not found"
                     A["MSG_049"] = "Thread not found."
@@ -1478,6 +1482,10 @@ def test_send_message(driver):
                 R["MSG_053"] = "PASS"
                 A["MSG_053"] = "Message info screen opened."
                 driver.back(); time.sleep(0.5)
+                # Verify still in chat after closing info
+                if not driver.find_elements(AppiumBy.XPATH,
+                    "//android.widget.EditText[contains(@hint,'Type') or contains(@text,'Type your message')]"):
+                    _ensure_in_chat(driver, "Ishwar Borwar")
             else:
                 R["MSG_053"] = "SKIP — Info not found"
                 A["MSG_053"] = "Info not in menu."
