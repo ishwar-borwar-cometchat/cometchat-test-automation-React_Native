@@ -76,22 +76,27 @@ def driver():
     options = AppiumOptions()
 
     if platform == "ios":
-        ipa_path = _find_ipa()
         udid = _get_ios_udid()
+        derived_data = subprocess.run(
+            "ls -d ~/Library/Developer/Xcode/DerivedData/WebDriverAgent-* 2>/dev/null | head -1",
+            shell=True, capture_output=True, text=True).stdout.strip()
         print(f"iOS device UDID: {udid}")
-        print(f"IPA: {ipa_path}")
 
         options.set_capability("platformName", "iOS")
         options.set_capability("appium:automationName", "XCUITest")
         options.set_capability("appium:udid", udid)
-        if ipa_path:
-            options.set_capability("appium:app", ipa_path)
-        options.set_capability("appium:noReset", False)
-        options.set_capability("appium:fullReset", False)
+        options.set_capability("appium:bundleId", "com.cometchat.internal.reactnative.ios")
+        options.set_capability("appium:noReset", True)
+        options.set_capability("appium:shouldTerminateApp", False)
+        options.set_capability("appium:forceAppLaunch", False)
         options.set_capability("appium:newCommandTimeout", 600)
         options.set_capability("appium:wdaLaunchTimeout", 120000)
         options.set_capability("appium:wdaConnectionTimeout", 120000)
         options.set_capability("appium:autoAcceptAlerts", True)
+        options.set_capability("appium:updatedWDABundleId", "com.ishwarborwar.WebDriverAgentRunner")
+        options.set_capability("appium:usePrebuiltWDA", True)
+        if derived_data:
+            options.set_capability("appium:derivedDataPath", derived_data)
     else:
         apk_path = _find_apk()
         print(f"APK: {apk_path}")
