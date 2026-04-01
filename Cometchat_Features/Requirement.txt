@@ -1,0 +1,62 @@
+TEST SCRIPT EXECUTION REQUIREMENTS
+=====================================
+
+1. UNINTERRUPTED EXECUTION
+   - The script must run continuously without any manual intervention or pauses
+   - No user input should be required during execution
+   - Script should handle all scenarios automatically
+
+2. COMPLETE TEST SUITE EXECUTION
+   - Execute all test cases from start to finish without stopping
+   - Continue execution even if individual test cases fail
+   - Do not halt on errors - mark as FAIL and continue to next test
+   - Complete all 64 test cases in a single run
+
+3. DYNAMIC XPATH DISCOVERY & AUTO-RECOVERY
+   - If an element is not found using the primary XPath:
+     * Automatically scan the page source in real-time
+     * Discover the correct XPath dynamically
+     * Use the discovered XPath immediately to continue execution
+   - Minimize wait times and avoid getting stuck on element location failures
+   - Implement smart fallback mechanisms for element detection
+   - Debug and adapt on-the-fly without stopping execution
+
+4. APP RESET BETWEEN RUNS
+   - After each complete script execution, terminate/kill the app
+   - Ensure the next test run starts from a clean state
+   - App should launch fresh at the beginning of each test run
+   - Clear any cached data or session information
+
+5. FRESH START ON EVERY EXECUTION
+   - Before starting test execution, check if the app is already open or in foreground
+   - If app is running, kill/terminate it immediately
+   - Always start from the beginning with fresh app launch
+   - Begin from the login screen (Andrew Joseph selection)
+   - Ensure consistent starting point for every test run
+   - No assumptions about app state - always reset to initial state
+
+6. AUTOMATED EXCEL REPORTING
+   - Upon completion of script execution, automatically update the Excel sheet with:
+     * Test execution results (PASS/FAIL/SKIP)
+     * Actual results observed during test
+     * Input data used for each test case
+     * Failure reasons (if any test fails)
+     * Execution timestamp
+   - No manual report generation required
+   - Excel file should be ready for review immediately after execution
+
+SUMMARY
+=======
+The script should be fully autonomous, self-healing with dynamic XPath discovery, 
+and provide automated reporting without requiring any manual intervention during 
+or after execution. Every test run must start from a clean slate by killing any 
+existing app instance and launching fresh from the Andrew Joseph login screen.
+
+KEY PRINCIPLES
+==============
+- Automation: Zero manual intervention
+- Resilience: Auto-recovery from failures
+- Completeness: Execute all tests regardless of individual failures
+- Consistency: Always start from fresh app launch (Andrew Joseph screen)
+- Reporting: Automatic Excel updates with detailed results
+- Efficiency: Minimize wait times with smart element detection

@@ -92,23 +92,23 @@ def driver():
     if platform == "ios":
         try:
             print("Checking if app is running and killing it for fresh start...")
-            # Try to terminate app using Appium capabilities
-            temp_options = AppiumOptions()
-            temp_options.set_capability("platformName", "iOS")
-            temp_options.set_capability("appium:automationName", "XCUITest")
-            temp_options.set_capability("appium:udid", _get_ios_udid())
-            temp_options.set_capability("appium:bundleId", "com.cometchat.internal.reactnative.ios.565LF4C8NT")
-            temp_options.set_capability("appium:noReset", False)
-            temp_options.set_capability("appium:shouldTerminateApp", True)
-            temp_options.set_capability("appium:forceAppLaunch", True)
-            
+            bundle_id = "com.cometchat.internal.reactnative.ios.565LF4C8NT"
+            udid = _get_ios_udid()
+            # Use devicectl to kill app without needing WDA
             try:
-                temp_driver = webdriver.Remote(APPIUM_SERVER, options=temp_options)
-                temp_driver.terminate_app("com.cometchat.internal.reactnative.ios.565LF4C8NT")
-                temp_driver.quit()
+                subprocess.run(
+                    ["xcrun", "devicectl", "device", "process", "terminate",
+                     "--device", udid, bundle_id],
+                    capture_output=True, text=True, timeout=10)
                 print("✓ App terminated successfully. Starting fresh...")
-            except:
-                print("✓ App not running or already terminated. Starting fresh...")
+            except Exception:
+                # Fallback: try idevicedebug
+                try:
+                    subprocess.run(["idevicedebug", "-u", udid, "kill", bundle_id],
+                                   capture_output=True, text=True, timeout=5)
+                    print("✓ App terminated via idevicedebug. Starting fresh...")
+                except Exception:
+                    print("✓ App not running or already terminated. Starting fresh...")
         except Exception as e:
             print(f"Note: Could not check app state: {e}")
 
