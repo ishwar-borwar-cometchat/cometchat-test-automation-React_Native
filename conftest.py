@@ -53,12 +53,27 @@ def _find_ipa():
 
 
 def _get_ios_udid():
+    """Get iOS device UDID using devicectl (newer method)."""
+    try:
+        # Try newer devicectl first
+        out = subprocess.run(["xcrun", "devicectl", "list", "devices"],
+                             capture_output=True, text=True, timeout=10).stdout
+        for line in out.split("\n"):
+            if "iPhone" in line and "available" in line:
+                # Extract identifier from the line
+                parts = line.split()
+                for i, part in enumerate(parts):
+                    if len(part) == 36 and '-' in part:  # UUID format
+                        return part
+    except Exception:
+        pass
+    
+    # Fallback to xctrace
     try:
         out = subprocess.run(["xcrun", "xctrace", "list", "devices"],
                              capture_output=True, text=True, timeout=10).stdout
         for line in out.split("\n"):
             if "iPhone" in line and "Simulator" not in line:
-                # Extract UDID from parentheses
                 parts = line.strip().split("(")
                 if len(parts) >= 3:
                     udid = parts[-1].rstrip(")")
@@ -73,10 +88,55 @@ def driver():
     platform = os.environ.get("PLATFORM", _detect_platform())
     print(f"\nPlatform detected: {platform}")
 
+    # Kill app if already running (Requirement #5: Fresh start on every execution)
+    if platform == "ios":
+        try:
+            print("Checking if app is running and killing it for fresh start...")
+            # Try to terminate app using Appium capabilities
+            temp_options = AppiumOptions()
+            temp_options.set_capability("platformName", "iOS")
+            temp_options.set_capability("appium:automationName", "XCUITest")
+            temp_options.set_capability("appium:udid", _get_ios_udid())
+            temp_options.set_capability("appium:bundleId", "com.cometchat.internal.reactnative.ios.565LF4C8NT")
+            temp_options.set_capability("appium:noReset", False)
+            temp_options.set_capability("appium:shouldTerminateApp", True)
+            temp_options.set_capability("appium:forceAppLaunch", True)
+            
+            try:
+                temp_driver = webdriver.Remote(APPIUM_SERVER, options=temp_options)
+                temp_driver.terminate_app("com.cometchat.internal.reactnative.ios.565LF4C8NT")
+                temp_driver.quit()
+                print("✓ App terminated successfully. Starting fresh...")
+            except:
+                print("✓ App not running or already terminated. Starting fresh...")
+        except Exception as e:
+            print(f"Note: Could not check app state: {e}")
+
     options = AppiumOptions()
 
     if platform == "ios":
+        # Try devicectl first for newer format
+        udid_devicectl = None
+        try:
+            out = subprocess.run(["xcrun", "devicectl", "list", "devices"],
+                                 capture_output=True, text=True, timeout=10).stdout
+            for line in out.split("\n"):
+                if "iPhone" in line and "available" in line:
+                    parts = line.split()
+                    for part in parts:
+                        if len(part) == 36 and '-' in part:
+                            udid_devicectl = part
+                            break
+        except Exception:
+            pass
+        
+        # Get xctrace UDID (for XCUITest compatibility)
         udid = _get_ios_udid()
+        
+        # Use devicectl UDID if xctrace shows offline
+        if not udid or "Offline" in str(udid):
+            udid = udid_devicectl if udid_devicectl else udid
+        
         derived_data = subprocess.run(
             "ls -d ~/Library/Developer/Xcode/DerivedData/WebDriverAgent-* 2>/dev/null | head -1",
             shell=True, capture_output=True, text=True).stdout.strip()
@@ -85,16 +145,18 @@ def driver():
         options.set_capability("platformName", "iOS")
         options.set_capability("appium:automationName", "XCUITest")
         options.set_capability("appium:udid", udid)
-        options.set_capability("appium:bundleId", "com.cometchat.internal.reactnative.ios")
+        options.set_capability("appium:bundleId", "com.cometchat.internal.reactnative.ios.565LF4C8NT")
         options.set_capability("appium:noReset", True)
         options.set_capability("appium:shouldTerminateApp", False)
         options.set_capability("appium:forceAppLaunch", False)
         options.set_capability("appium:newCommandTimeout", 600)
-        options.set_capability("appium:wdaLaunchTimeout", 120000)
-        options.set_capability("appium:wdaConnectionTimeout", 120000)
+        options.set_capability("appium:wdaLaunchTimeout", 180000)
+        options.set_capability("appium:wdaConnectionTimeout", 180000)
         options.set_capability("appium:autoAcceptAlerts", True)
         options.set_capability("appium:updatedWDABundleId", "com.ishwarborwar.WebDriverAgentRunner")
         options.set_capability("appium:usePrebuiltWDA", True)
+        options.set_capability("appium:useNewWDA", False)
+        options.set_capability("appium:showXcodeLog", True)
         if derived_data:
             options.set_capability("appium:derivedDataPath", derived_data)
     else:
@@ -122,4 +184,11 @@ def driver():
 
     yield driver
 
+    # Kill app after test completion (Requirement #4: App reset between runs)
+    try:
+        print("\n✓ Terminating app for clean state...")
+        driver.terminate_app("com.cometchat.internal.reactnative.ios.565LF4C8NT" if platform == "ios" else None)
+    except Exception as e:
+        print(f"Note: Could not terminate app: {e}")
+    
     driver.quit()

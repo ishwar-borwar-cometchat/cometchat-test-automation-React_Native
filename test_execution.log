@@ -1,0 +1,774 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.3.4, pluggy-1.6.0 -- /Applications/Xcode.app/Contents/Developer/usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/admin/Documents/Kiro/Manual Test Script/React Native
+plugins: anyio-4.12.1, xonsh-0.19.9
+collecting ... collected 1 item
+
+Cometchat_Features/Send_&_Compose/Positive test cases/test_send_message_positive.py::test_send_message_positive 
+Platform detected: ios
+Checking if app is running and killing it for fresh start...
+✓ App terminated successfully. Starting fresh...
+iOS device UDID: 00008020-0003353E3E82002E
+Already logged in.
+  Tapping Users tab...
+  Searching for Ishwar...
+  Opened Ishwar Borwar chat.
+
+=== PHASE 1: Composer Basics (MSG_001-MSG_008) ===
+MSG_001: PASS
+MSG_002: PASS
+MSG_003: PASS
+MSG_004: PASS
+MSG_005: PASS
+MSG_006: PASS
+  [DEBUG] Found send button with xpath: //*[@name="send-button"]
+  [DEBUG] Message sent successfully
+MSG_007: PASS
+  [DEBUG] Found send button with xpath: //*[@name="send-button"]
+  [DEBUG] Message sent successfully
+MSG_008: PASS
+
+=== PHASE 2: Send Various Types (MSG_009-MSG_018) ===
+  [DEBUG] Found send button with xpath: //*[@name="send-button"]
+  [DEBUG] Message sent successfully
+MSG_009: PASS
+  [DEBUG] Send message attempt 1 failed: Message: Could not proxy command to the remote server. Original error: socket ha
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: socket hang up
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: socket hang up
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_010: PASS
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_011: PASS
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_012: PASS
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_013: PASS
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_014: PASS
+MSG_015: SKIP
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_016: FAIL — Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_017: FAIL — Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Session does not exist; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+ProxyRequestError: Request failed with status code 404
+    at JWProxy.proxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:260:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ProtocolConverter.convertAndProxy (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/protocol-converter.js:107:16)
+    at async JWProxy.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:291:16)
+    at async JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:304:38)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_018: FAIL — Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+
+=== PHASE 3: Observe Sent/Received (MSG_019-MSG_026) ===
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_019: FAIL
+MSG_020: PASS
+MSG_021: PASS
+MSG_022: PASS
+MSG_023: PASS
+MSG_024: PASS
+MSG_026: PASS
+MSG_025: SKIP
+
+=== PHASE 4: Scroll (MSG_027-MSG_030) ===
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_027: FAIL
+MSG_028: FAIL — Message: Could not proxy command to the remote server. Original error: connect E
+MSG_029: PASS
+MSG_030: PASS
+
+=== PHASE 5: i18n + Mixed (MSG_031-MSG_037) ===
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 2 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+MSG_031: PASS
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
+  [DEBUG] Could not save page source: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [DEBUG] Send message attempt 1 failed: Could not find composer after all attempts: Message: 
+Stacktrace:
+NoSuchElementE
+  [DEBUG] Retrying...
+  [DEBUG] Primary composer xpath failed, trying fallbacks and smart scan...
+  [DEBUG] All xpaths failed, trying smart scan for composer
+  [SMART FIND] Searching for element with keywords: ['editor', 'composer', 'input', 'message', 'text']
+  [DEBUG] Error scanning for element: Message: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+Stacktrace:
+UnknownError: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+    at ProxyRequestError.getActualError (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/protocol/errors.js:692:16)
+    at JWProxy.command (/Users/admin/.appium/node_modules/appium-xcuitest-driver/node_modules/@appium/base-driver/build/lib/jsonwp-proxy/proxy.js:308:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async XCUITestDriver.proxyCommand (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/proxy-helper.js:84:17)
+    at async XCUITestDriver.mobileGetSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:48:13)
+    at async XCUITestDriver.getPageSource (/Users/admin/.appium/node_modules/appium-xcuitest-driver/build/lib/commands/source.js:27:12)
+  [SMART FIND] No elements found matching keywords
+  [DEBUG] Could not find composer with any method
