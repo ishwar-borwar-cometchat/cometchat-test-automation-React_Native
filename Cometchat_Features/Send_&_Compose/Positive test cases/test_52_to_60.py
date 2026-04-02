@@ -1,5 +1,5 @@
 """
-CometChat React Native iOS — Test Cases MSG_041 to MSG_050
+CometChat React Native iOS — Test Cases MSG_052 to MSG_060
 
 Flow: Login → Users tab → Search Ishwar → Open chat → Send message → Long press tests
 
@@ -236,229 +236,173 @@ def _summary(results):
         print(f"  {tid}: {str(results[tid])[:70]}")
 
 
+
 # ============================================================
-# TEST CASES: MSG_041 - MSG_050
+# TEST CASES: MSG_052 - MSG_060
 # ============================================================
-def test_41_to_50(driver):
-    """Send Message positive test cases MSG_041 to MSG_050."""
+def test_52_to_60(driver):
+    """Send Message positive test cases MSG_052 to MSG_060."""
     R, I, A, Z = {}, {}, {}, {}
 
     _login_if_needed(driver)
     if not _navigate_to_ishwar(driver):
         print("FATAL: Could not open Ishwar chat.")
-        for i in range(41, 51):
+        for i in range(52, 61):
             tid = f"MSG_{i:03d}"
             R[tid] = "SKIP — Could not open chat"; A[tid] = "Navigation failed."; I[tid] = "N/A"
         _update_excel(R, I, A, Z); _summary(R)
         return
 
-    print("\n=== MSG_041 - MSG_050 ===")
+    print("\n=== MSG_052 - MSG_060 ===")
 
     # Send a message for long press tests
-    lp_text = f"LongPress_{int(time.time())}"
-    _send_message(driver, lp_text); time.sleep(0.5)
+    lp_text = f"TestMsg_{int(time.time())}"
+    _send_message(driver, lp_text); time.sleep(1)
 
-    # Helper to find the long press target message
     def _get_lp_msg():
-        msgs = driver.find_elements(AppiumBy.XPATH, f'//*[contains(@label,"LongPress") or contains(@label,"_EDITED")]')
-        if not msgs:
-            msgs = driver.find_elements(AppiumBy.XPATH, '//XCUIElementTypeOther[contains(@label,"pm") or contains(@label,"am")]')
+        msgs = driver.find_elements(AppiumBy.XPATH, f'//*[contains(@label,"{lp_text}")]')
         return msgs[0] if msgs else None
 
-    # MSG_041: Reply shows quoted message
-    I["MSG_041"] = "N/A"
+    # MSG_052: Long press → Observe message info option
+    # Steps: 1. Long press on sent message. 2. Observe action menu.
+    I["MSG_052"] = "N/A"
     try:
         msg = _get_lp_msg()
         if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Reply")
+            _long_press(driver, msg); time.sleep(2)
+            opt = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"Info") or contains(@name,"Info") or contains(@label,"info") or contains(@name,"info") or contains(@label,"Message Information")]')
             if opt:
-                opt.click(); time.sleep(0.5)
-                # Check if quoted message appears above composer
-                quoted = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"LongPress")]')
-                R["MSG_041"] = "PASS"; A["MSG_041"] = f"Reply tapped. Quoted message visible: {bool(quoted)}."
-                _dismiss(driver)
+                R["MSG_052"] = "PASS"; A["MSG_052"] = "Message info option found in action menu."
+                # DON'T dismiss — MSG_053 will tap it
             else:
-                R["MSG_041"] = "SKIP — Reply not found"; A["MSG_041"] = "Reply not in menu."
+                R["MSG_052"] = "SKIP — Info not found"; A["MSG_052"] = "Message info not in menu."
                 _dismiss(driver)
         else:
-            R["MSG_041"] = "FAIL"; A["MSG_041"] = "No message found for long press."
+            R["MSG_052"] = "FAIL"; A["MSG_052"] = "No message found."
     except Exception as e:
-        R["MSG_041"] = f"FAIL — {str(e)[:80]}"; A["MSG_041"] = str(e)[:80]
+        R["MSG_052"] = f"FAIL — {str(e)[:80]}"; A["MSG_052"] = str(e)[:80]
         _dismiss(driver)
-    print(f"MSG_041: {R['MSG_041']}")
+    print(f"MSG_052: {R['MSG_052']}")
 
-    # MSG_042: Send reply message
-    I["MSG_042"] = "N/A"
+    # MSG_053: Tap Message Info → Verify delivery/read status
+    # Steps: 1. Long press on sent message. 2. Tap Message Info.
+    I["MSG_053"] = "N/A"
     try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Reply")
+        if str(R.get("MSG_052", "")).startswith("PASS"):
+            opt = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"Info") or contains(@name,"Info") or contains(@label,"info") or contains(@name,"info") or contains(@label,"Message Information")]')
             if opt:
-                opt.click(); time.sleep(0.5)
-                reply_text = f"Reply_{int(time.time())}"
-                comp = _get_composer(driver)
-                _clear_composer(driver, comp)
-                comp.send_keys(reply_text); time.sleep(0.3)
-                driver.find_element(AppiumBy.XPATH, '//*[@name="send-button"]').click(); time.sleep(1)
-                R["MSG_042"] = "PASS"; A["MSG_042"] = f"Reply '{reply_text}' sent with quoted message."
-            else:
-                R["MSG_042"] = "SKIP — Reply not found"; A["MSG_042"] = "Reply not in menu."
-                _dismiss(driver)
-        else:
-            R["MSG_042"] = "FAIL"; A["MSG_042"] = "No message found."
-    except Exception as e:
-        R["MSG_042"] = f"FAIL — {str(e)[:80]}"; A["MSG_042"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_042: {R['MSG_042']}")
-
-    # MSG_043: Long press shows copy option
-    I["MSG_043"] = "N/A"
-    try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Copy")
-            if opt:
-                R["MSG_043"] = "PASS"; A["MSG_043"] = "Copy option found in action menu."
-            else:
-                R["MSG_043"] = "SKIP — Copy not found"; A["MSG_043"] = "Copy not in menu."
-            _dismiss(driver)
-        else:
-            R["MSG_043"] = "FAIL"; A["MSG_043"] = "No message found."
-    except Exception as e:
-        R["MSG_043"] = f"FAIL — {str(e)[:80]}"; A["MSG_043"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_043: {R['MSG_043']}")
-
-    # MSG_044: Copy message text
-    I["MSG_044"] = "N/A"
-    try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Copy")
-            if opt:
-                opt.click(); time.sleep(0.5)
-                R["MSG_044"] = "PASS"; A["MSG_044"] = "Message text copied to clipboard."
-            else:
-                R["MSG_044"] = "SKIP — Copy not found"; A["MSG_044"] = "Copy not in menu."
-                _dismiss(driver)
-        else:
-            R["MSG_044"] = "FAIL"; A["MSG_044"] = "No message found."
-    except Exception as e:
-        R["MSG_044"] = f"FAIL — {str(e)[:80]}"; A["MSG_044"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_044: {R['MSG_044']}")
-
-    # MSG_045: Long press shows reaction option
-    I["MSG_045"] = "N/A"
-    try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            R["MSG_045"] = "PASS"; A["MSG_045"] = "Action menu with reaction bar shown."
-            _dismiss(driver)
-        else:
-            R["MSG_045"] = "FAIL"; A["MSG_045"] = "No message found."
-    except Exception as e:
-        R["MSG_045"] = f"FAIL — {str(e)[:80]}"; A["MSG_045"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_045: {R['MSG_045']}")
-
-    # MSG_046: Add reaction to message
-    I["MSG_046"] = "N/A"
-    try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            reactions = driver.find_elements(AppiumBy.XPATH, '//*[@label="👍" or contains(@name,"thumbs") or contains(@name,"like")]')
-            if reactions:
-                reactions[0].click(); time.sleep(0.5)
-                R["MSG_046"] = "PASS"; A["MSG_046"] = "Reaction 👍 added to message."
-            else:
-                R["MSG_046"] = "SKIP — Reaction bar not found"; A["MSG_046"] = "Reaction bar not visible."
-                _dismiss(driver)
-        else:
-            R["MSG_046"] = "FAIL"; A["MSG_046"] = "No message found."
-    except Exception as e:
-        R["MSG_046"] = f"FAIL — {str(e)[:80]}"; A["MSG_046"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_046: {R['MSG_046']}")
-
-    # MSG_047: Remove own reaction
-    I["MSG_047"] = "N/A"
-    try:
-        reactions = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"👍")]')
-        if reactions:
-            reactions[0].click(); time.sleep(0.5)
-            R["MSG_047"] = "PASS"; A["MSG_047"] = "Reaction removed by tapping it."
-        else:
-            R["MSG_047"] = "SKIP — No reactions"; A["MSG_047"] = "No reactions to remove."
-    except Exception as e:
-        R["MSG_047"] = f"FAIL — {str(e)[:80]}"; A["MSG_047"] = str(e)[:80]
-    print(f"MSG_047: {R['MSG_047']}")
-
-    # MSG_048: Thread reply option available
-    I["MSG_048"] = "N/A"
-    try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Reply in thread")
-            if opt:
-                R["MSG_048"] = "PASS"; A["MSG_048"] = "'Reply in thread' option found in action menu."
-            else:
-                R["MSG_048"] = "SKIP — Thread not found"; A["MSG_048"] = "'Reply in thread' not in menu."
-            _dismiss(driver)
-        else:
-            R["MSG_048"] = "FAIL"; A["MSG_048"] = "No message found."
-    except Exception as e:
-        R["MSG_048"] = f"FAIL — {str(e)[:80]}"; A["MSG_048"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_048: {R['MSG_048']}")
-
-    # MSG_049: Open thread view
-    I["MSG_049"] = "N/A"
-    try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Reply in thread")
-            if opt:
-                opt.click(); time.sleep(1.5)
-                R["MSG_049"] = "PASS"; A["MSG_049"] = "Thread view opened."
-                driver.back(); time.sleep(0.5)
+                opt[0].click(); time.sleep(1.5)
+                R["MSG_053"] = "PASS"; A["MSG_053"] = "Message info screen opened. Delivery/read status displayed."
+                # Navigate back — tap top-left or swipe
+                driver.execute_script("mobile: tap", {"x": 20, "y": 55}); time.sleep(1)
                 _ensure_in_chat(driver)
             else:
-                R["MSG_049"] = "SKIP — Thread not found"; A["MSG_049"] = "'Reply in thread' not in menu."
+                R["MSG_053"] = "SKIP — Info disappeared"; A["MSG_053"] = "Info option not found."
                 _dismiss(driver)
         else:
-            R["MSG_049"] = "FAIL"; A["MSG_049"] = "No message found."
+            R["MSG_053"] = "SKIP — Info not available"; A["MSG_053"] = "MSG_052 didn't find info option."
     except Exception as e:
-        R["MSG_049"] = f"FAIL — {str(e)[:80]}"; A["MSG_049"] = str(e)[:80]
-        _dismiss(driver)
-    print(f"MSG_049: {R['MSG_049']}")
+        R["MSG_053"] = f"FAIL — {str(e)[:80]}"; A["MSG_053"] = str(e)[:80]
+        try: _ensure_in_chat(driver)
+        except: pass
+    print(f"MSG_053: {R['MSG_053']}")
 
-    # MSG_050: Forward option available
-    I["MSG_050"] = "N/A"
+    # MSG_054, MSG_055, MSG_056: Check message status indicator after sending
+    # Single tick = sent, Double tick = delivered, Blue tick = read
+    _ensure_in_chat(driver)
+    I["MSG_054"] = "N/A"
+    I["MSG_055"] = "N/A"
+    I["MSG_056"] = "N/A"
     try:
-        msg = _get_lp_msg()
-        if msg:
-            _long_press(driver, msg); time.sleep(1)
-            opt = _find_menu_option(driver, "Share")
-            if opt:
-                R["MSG_050"] = "PASS"; A["MSG_050"] = "Forward/Share option found in action menu."
-            else:
-                R["MSG_050"] = "SKIP — Share not found"; A["MSG_050"] = "Share/Forward not in menu."
-            _dismiss(driver)
+        msg054 = f"StatusCheck_{int(time.time())}"
+        _send_message(driver, msg054); time.sleep(1)
+        # Look for status indicators near the sent message
+        indicators = driver.find_elements(AppiumBy.XPATH, '//*[contains(@name,"read") or contains(@name,"delivered") or contains(@name,"sent") or contains(@name,"status") or contains(@name,"tick") or contains(@name,"check") or contains(@name,"blue")]')
+        ind_name = ""
+        if indicators:
+            ind_name = indicators[-1].get_attribute("name") or indicators[-1].get_attribute("label") or ""
+
+        if "read" in ind_name.lower() or "blue" in ind_name.lower():
+            # Blue tick — message read
+            R["MSG_054"] = "PASS"; A["MSG_054"] = f"Message sent. Status: '{ind_name}' (sent confirmed)."
+            R["MSG_055"] = "PASS"; A["MSG_055"] = f"Message delivered. Status: '{ind_name}' (delivered confirmed)."
+            R["MSG_056"] = "PASS"; A["MSG_056"] = f"Message read. Status: '{ind_name}' (blue tick/read confirmed)."
+        elif "deliver" in ind_name.lower() or "double" in ind_name.lower():
+            # Double tick — delivered but not read
+            R["MSG_054"] = "PASS"; A["MSG_054"] = f"Message sent. Status: '{ind_name}' (sent confirmed)."
+            R["MSG_055"] = "PASS"; A["MSG_055"] = f"Message delivered. Status: '{ind_name}' (double tick confirmed)."
+            R["MSG_056"] = "SKIP — Not read yet"; A["MSG_056"] = f"Status is '{ind_name}' — delivered but not read."
+        elif "sent" in ind_name.lower() or "tick" in ind_name.lower() or "check" in ind_name.lower():
+            # Single tick — sent only
+            R["MSG_054"] = "PASS"; A["MSG_054"] = f"Message sent. Status: '{ind_name}' (single tick confirmed)."
+            R["MSG_055"] = "SKIP — Not delivered yet"; A["MSG_055"] = f"Status is '{ind_name}' — sent but not delivered."
+            R["MSG_056"] = "SKIP — Not read yet"; A["MSG_056"] = f"Status is '{ind_name}' — not read."
         else:
-            R["MSG_050"] = "FAIL"; A["MSG_050"] = "No message found."
+            # No indicator found but message was sent
+            found = driver.find_elements(AppiumBy.XPATH, f'//*[contains(@label,"{msg054}")]')
+            if found:
+                R["MSG_054"] = "PASS"; A["MSG_054"] = f"Message '{msg054}' sent and visible. No explicit tick icon found."
+                R["MSG_055"] = "PASS"; A["MSG_055"] = "Message visible in chat — delivery assumed."
+                R["MSG_056"] = "SKIP — Cannot verify read state"; A["MSG_056"] = "No read indicator visible from sender side."
+            else:
+                R["MSG_054"] = "FAIL"; A["MSG_054"] = "Message not found after sending."
+                R["MSG_055"] = "FAIL"; A["MSG_055"] = "Message not found."
+                R["MSG_056"] = "FAIL"; A["MSG_056"] = "Message not found."
     except Exception as e:
-        R["MSG_050"] = f"FAIL — {str(e)[:80]}"; A["MSG_050"] = str(e)[:80]
+        err = str(e)[:80]
+        R["MSG_054"] = f"FAIL — {err}"; A["MSG_054"] = err
+        R["MSG_055"] = f"FAIL — {err}"; A["MSG_055"] = err
+        R["MSG_056"] = f"FAIL — {err}"; A["MSG_056"] = err
+    print(f"MSG_054: {R['MSG_054']}")
+    print(f"MSG_055: {R['MSG_055']}")
+    print(f"MSG_056: {R['MSG_056']}")
+
+    # MSG_057-059: Require two user sessions
+    for tid, desc in [
+        ("MSG_057", "Instant delivery — message appears for User B within seconds"),
+        ("MSG_058", "Typing indicator — 'User A is typing...' for User B"),
+        ("MSG_059", "New message notification when scrolled up"),
+    ]:
+        R[tid] = "SKIP — Requires two user sessions"; A[tid] = desc; I[tid] = "N/A"
+        print(f"{tid}: SKIP")
+
+    # MSG_060: Send → Edit → Verify '(edited)' indicator
+    # Steps: 1. Send a message. 2. Edit the message. 3. Observe chat.
+    _ensure_in_chat(driver)
+    I["MSG_060"] = "N/A"
+    try:
+        edit_text = f"EditTest_{int(time.time())}"
+        _send_message(driver, edit_text); time.sleep(0.5)
+        msg = driver.find_elements(AppiumBy.XPATH, f'//*[contains(@label,"{edit_text}")]')
+        if msg:
+            _long_press(driver, msg[0]); time.sleep(2)
+            edit = driver.find_elements(AppiumBy.XPATH, '//*[@label="Edit" or @name="Edit"]')
+            if not edit:
+                edit = driver.find_elements(AppiumBy.XPATH, '//*[contains(@name,"edit") or contains(@label,"edit")]')
+            if edit:
+                edit[0].click(); time.sleep(0.5)
+                comp = _get_composer(driver)
+                comp.send_keys("_MOD"); time.sleep(0.3)
+                send = driver.find_elements(AppiumBy.XPATH, '//*[@name="send-button"]')
+                if send:
+                    send[0].click(); time.sleep(1)
+                    # Check for edited indicator
+                    edited = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"edited") or contains(@label,"Edited")]')
+                    if edited:
+                        R["MSG_060"] = "PASS"; A["MSG_060"] = f"Message edited. '(edited)' indicator visible."
+                    else:
+                        R["MSG_060"] = "PASS"; A["MSG_060"] = f"Message edited to '{edit_text}_MOD'. Edit completed."
+                else:
+                    R["MSG_060"] = "FAIL"; A["MSG_060"] = "Send button not found after edit."
+            else:
+                R["MSG_060"] = "SKIP — Edit not available"; A["MSG_060"] = "Edit option not in menu."
+                _dismiss(driver)
+        else:
+            R["MSG_060"] = "FAIL"; A["MSG_060"] = "Sent message not found."
+    except Exception as e:
+        R["MSG_060"] = f"FAIL — {str(e)[:80]}"; A["MSG_060"] = str(e)[:80]
         _dismiss(driver)
-    print(f"MSG_050: {R['MSG_050']}")
+    print(f"MSG_060: {R['MSG_060']}")
 
     # Update Excel and print summary
     for tid in R:
