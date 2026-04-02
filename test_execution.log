@@ -5,40 +5,99 @@ rootdir: /Users/admin/Documents/Kiro/Manual Test Script/React Native
 plugins: anyio-4.12.1, xonsh-0.19.9
 collecting ... collected 1 item
 
-Cometchat_Features/Send_&_Compose/Positive test cases/test_52_to_60.py::test_52_to_60 
+Cometchat_Features/Send_&_Compose/Positive test cases/test_01_to_30.py::test_01_to_30 
 Platform detected: ios
 Checking if app is running and killing it for fresh start...
 ✓ App terminated successfully. Starting fresh...
 iOS device UDID: 00008020-0003353E3E82002E
 Already logged in.
   Tapping Users tab...
+  Searching for Ishwar...
   Opened Ishwar Borwar chat.
 
-=== MSG_052 - MSG_060 ===
+=== MSG_001 - MSG_010 ===
+MSG_001: PASS
+MSG_002: PASS
+MSG_003: PASS
+MSG_004: PASS
+MSG_005: PASS
+MSG_006: PASS
   [DEBUG] Message sent successfully
-MSG_052: PASS
-MSG_053: PASS
-MSG_054: FAIL
-MSG_055: FAIL
-MSG_056: FAIL
-MSG_057: SKIP
-MSG_058: SKIP
-MSG_059: SKIP
-MSG_060: FAIL
-Excel updated: 9 results
+MSG_007: PASS
+  [DEBUG] Message sent successfully
+MSG_008: PASS
+  [DEBUG] Message sent successfully
+MSG_009: PASS
+  [DEBUG] Message sent successfully
+MSG_010: PASS
+
+=== MSG_011 - MSG_020 ===
+  [DEBUG] Message sent successfully
+MSG_011: PASS
+  [DEBUG] Message sent successfully
+MSG_012: PASS
+  [DEBUG] Message sent successfully
+MSG_013: PASS
+  [DEBUG] Message sent successfully
+MSG_014: PASS
+MSG_015: SKIP
+MSG_016: PASS
+MSG_017: PASS
+  [DEBUG] Message sent successfully
+MSG_018: PASS
+  [DEBUG] Message sent successfully
+MSG_019: PASS
+MSG_020: PASS
+
+=== MSG_021 - MSG_030 ===
+MSG_021: PASS
+MSG_022: PASS
+MSG_023: PASS
+MSG_024: PASS
+MSG_025: SKIP
+MSG_026: PASS
+  [DEBUG] Message sent successfully
+MSG_027: PASS
+MSG_028: PASS
+MSG_029: PASS
+  [DEBUG] Elements after scroll up: ['Emoji Button', 'Feedback_1775120883, Feedback_1775120883, 2:38 pm', 'Hello, Hello, 2:37 pm', 'Hello, Hello, 2:38 pm', 'Hello_1775120467, Hello_1775120467, 2:31 pm', 'Hello_1775120965, Hello_1775120965, 2:39 pm', 'Hi_1775120475, Hi_1775120475, 2:31 pm', 'Hi_1775120502, Hi_1775120502, 2:31 pm', 'Hi_1775120973, Hi_1775120973, 2:39 pm', 'Hi_1775121014, Hi_1775121014, 2:40 pm', 'Horizontal scroll bar, 1 page', 'Ishwar Borwar', 'Last seen 39 minutes ago', 'Line 1&#10;Line 2, Line 1&#10;Line 2, 2:37 pm', 'Line1&#10;Line2, Line1&#10;Line2, 2:31 pm', 'Line1&#10;Line2, Line1&#10;Line2, 2:39 pm', 'Msg_1775120454&#10;, Msg_1775120454&#10;, 2:31 pm', 'Msg_1775120951&#10;, Msg_1775120951&#10;, 2:39 pm', 'Next keyboard', 'Return', 'Test message, Test message, 2:37 pm', 'Test_1775120875, Test_1775120875, 2:38 pm', 'Type your message...', 'UIKeyboardLayoutStar Preview', 'Vertical scroll bar, 2 pages', 'a', 'b', 'c', 'd', 'delete', 'dictation', 'e', 'emoji', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'more', 'n', 'o', 'p', 'q', 'r', 'rich-text-editor', 's', 'sampleapp', 'send-button', 'shift', 'space', 't', 'test, test, 2:37 pm', 'toolbar-blockquote', 'toolbar-bold', 'toolbar-code-block', 'toolbar-inline-code', 'toolbar-italic', 'toolbar-link', 'toolbar-ordered-list', 'toolbar-scrollview', 'toolbar-strikethrough', 'toolbar-underline', 'toolbar-unordered-list', 'u', 'v', 'w', 'x', 'y', 'z', '’']
+  [DEBUG] Potential scroll btn: name='shift', label='majuscule', x=2, y=714
+MSG_030: FAIL — Message: The previously found element "Button at {{2.0, 714.0}, {50.0, 49.0}}" i
+Excel [Positive] updated: 30 results
 
 ============================================================
-Total: 9 | PASS: 2 | FAIL: 4 | SKIP: 3
+Total: 30 | PASS: 27 | FAIL: 1 | SKIP: 2
 ============================================================
-  MSG_052: PASS
-  MSG_053: PASS
-  MSG_054: FAIL
-  MSG_055: FAIL
-  MSG_056: FAIL
-  MSG_057: SKIP — Requires two user sessions
-  MSG_058: SKIP — Requires two user sessions
-  MSG_059: SKIP — Requires two user sessions
-  MSG_060: FAIL
+  MSG_001: PASS
+  MSG_002: PASS
+  MSG_003: PASS
+  MSG_004: PASS
+  MSG_005: PASS
+  MSG_006: PASS
+  MSG_007: PASS
+  MSG_008: PASS
+  MSG_009: PASS
+  MSG_010: PASS
+  MSG_011: PASS
+  MSG_012: PASS
+  MSG_013: PASS
+  MSG_014: PASS
+  MSG_015: SKIP — 10000+ chars via send_keys causes automation timeout
+  MSG_016: PASS
+  MSG_017: PASS
+  MSG_018: PASS
+  MSG_019: PASS
+  MSG_020: PASS
+  MSG_021: PASS
+  MSG_022: PASS
+  MSG_023: PASS
+  MSG_024: PASS
+  MSG_025: SKIP — Requires group chat
+  MSG_026: PASS
+  MSG_027: PASS
+  MSG_028: PASS
+  MSG_029: PASS
+  MSG_030: FAIL — Message: The previously found element "Button at {{2.0, 714.0},
 PASSED
 ✓ Terminating app for clean state...
 
@@ -48,13 +107,13 @@ PASSED
   /Users/admin/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
     warnings.warn(
 
-Cometchat_Features/Send_&_Compose/Positive test cases/test_52_to_60.py::test_52_to_60
+Cometchat_Features/Send_&_Compose/Positive test cases/test_01_to_30.py::test_01_to_30
   /Users/admin/Library/Python/3.9/lib/python/site-packages/appium/webdriver/appium_connection.py:43: DeprecationWarning: setting remote_server_addr in RemoteConnection() is deprecated, set in client_config instead
     super().__init__(remote_server_addr, keep_alive=keep_alive, ignore_proxy=ignore_proxy)
 
-Cometchat_Features/Send_&_Compose/Positive test cases/test_52_to_60.py::test_52_to_60
+Cometchat_Features/Send_&_Compose/Positive test cases/test_01_to_30.py::test_01_to_30
   /Users/admin/Library/Python/3.9/lib/python/site-packages/appium/webdriver/appium_connection.py:47: DeprecationWarning: get_timeout() in RemoteConnection is deprecated, get timeout from client_config instead
     pool_manager_init_args = {'timeout': self.get_timeout()}
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-================== 1 passed, 3 warnings in 253.52s (0:04:13) ===================
+================== 1 passed, 3 warnings in 258.27s (0:04:18) ===================
