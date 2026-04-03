@@ -53,31 +53,18 @@ def _find_ipa():
 
 
 def _get_ios_udid():
-    """Get iOS device UDID using devicectl (newer method)."""
-    try:
-        # Try newer devicectl first
-        out = subprocess.run(["xcrun", "devicectl", "list", "devices"],
-                             capture_output=True, text=True, timeout=10).stdout
-        for line in out.split("\n"):
-            if "iPhone" in line and "available" in line:
-                # Extract identifier from the line
-                parts = line.split()
-                for i, part in enumerate(parts):
-                    if len(part) == 36 and '-' in part:  # UUID format
-                        return part
-    except Exception:
-        pass
-    
-    # Fallback to xctrace
+    """Get iOS device UDID using xctrace (compatible with Appium XCUITest)."""
+    # Use xctrace first — this returns the UDID format Appium expects
     try:
         out = subprocess.run(["xcrun", "xctrace", "list", "devices"],
                              capture_output=True, text=True, timeout=10).stdout
         for line in out.split("\n"):
             if "iPhone" in line and "Simulator" not in line:
                 parts = line.strip().split("(")
-                if len(parts) >= 3:
+                if len(parts) >= 2:
                     udid = parts[-1].rstrip(")")
-                    return udid
+                    if udid:
+                        return udid
     except Exception:
         pass
     return ""
@@ -121,10 +108,10 @@ def driver():
             out = subprocess.run(["xcrun", "devicectl", "list", "devices"],
                                  capture_output=True, text=True, timeout=10).stdout
             for line in out.split("\n"):
-                if "iPhone" in line and "available" in line:
+                if "iPhone" in line and "connected" in line:
                     parts = line.split()
                     for part in parts:
-                        if len(part) == 36 and '-' in part:
+                        if len(part) == 36 and part.count('-') == 4:
                             udid_devicectl = part
                             break
         except Exception:

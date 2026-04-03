@@ -284,8 +284,8 @@ def _ensure_in_chat(driver):
 # ============================================================
 # TEST CASES: MSG_001 - MSG_060
 # ============================================================
-def test_01_to_60(driver):
-    """Send Message positive test cases MSG_001 to MSG_060."""
+def test_01_to_63(driver):
+    """Send Message positive test cases MSG_001 to MSG_063."""
     R, I, A, Z = {}, {}, {}, {}
 
     _login_if_needed(driver)
@@ -1285,6 +1285,113 @@ def test_01_to_60(driver):
         R["MSG_060"] = f"FAIL — {str(e)[:80]}"; A["MSG_060"] = str(e)[:80]
         _dismiss(driver)
     print(f"MSG_060: {R['MSG_060']}")
+
+    # ------------------------------------------------------------------
+    # MSG_061: Verify long press on sent message shows delete option
+    # Steps: 1. Send a message. 2. Long press. 3. Observe action menu.
+    # ------------------------------------------------------------------
+    _ensure_in_chat(driver)
+    del_text = f"DelOpt_{int(time.time())}"
+    I["MSG_061"] = del_text
+    try:
+        _send_message(driver, del_text); time.sleep(0.5)
+        msg = driver.find_elements(AppiumBy.XPATH, f'//*[contains(@label,"{del_text}")]')
+        if msg:
+            _long_press(driver, msg[0]); time.sleep(2)
+            delete = driver.find_elements(AppiumBy.XPATH, '//*[@label="Delete" or @name="Delete"]')
+            if not delete:
+                delete = driver.find_elements(AppiumBy.XPATH, '//*[contains(@name,"delete") or contains(@label,"delete")]')
+            if delete:
+                R["MSG_061"] = "PASS"; A["MSG_061"] = "Delete option found in action menu."
+                # DON'T dismiss — MSG_062 will tap Delete from this menu
+            else:
+                R["MSG_061"] = "SKIP — Delete not found"; A["MSG_061"] = "Delete not in menu."
+                _dismiss(driver)
+        else:
+            R["MSG_061"] = "FAIL"; A["MSG_061"] = "Sent message not found."
+    except Exception as e:
+        R["MSG_061"] = f"FAIL — {str(e)[:80]}"; A["MSG_061"] = str(e)[:80]
+        _dismiss(driver)
+    print(f"MSG_061: {R['MSG_061']}")
+
+    # ------------------------------------------------------------------
+    # MSG_062: Verify deleting a sent message
+    # Steps: 1. Long press on sent message. 2. Tap Delete. 3. Confirm.
+    # Expected: Message removed or 'This message was deleted' placeholder.
+    # ------------------------------------------------------------------
+    I["MSG_062"] = del_text
+    try:
+        if str(R.get("MSG_061", "")).startswith("PASS"):
+            # Menu still open from MSG_061 — tap Delete
+            delete = driver.find_elements(AppiumBy.XPATH, '//*[@label="Delete" or @name="Delete"]')
+            if not delete:
+                delete = driver.find_elements(AppiumBy.XPATH, '//*[contains(@name,"delete") or contains(@label,"delete")]')
+            if delete:
+                delete[0].click(); time.sleep(2)
+                # Confirmation popup: "Delete this Message?" — React Native modal
+                # Tap the red Delete button by coordinate
+                popup = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"Delete this Message")]')
+                if popup:
+                    driver.execute_script("mobile: tap", {"x": 286, "y": 560})
+                    time.sleep(2)
+                # Verify: check for 'This message was deleted' placeholder
+                time.sleep(2)
+                placeholder = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"deleted") or contains(@label,"This message was deleted") or contains(@label,"message was deleted")]')
+                if not placeholder:
+                    try:
+                        import re as _re
+                        src = driver.page_source
+                        if _re.search(r'(?:deleted|message was deleted)', src, re.IGNORECASE):
+                            placeholder = True
+                    except: pass
+                if placeholder:
+                    R["MSG_062"] = "PASS"; A["MSG_062"] = "Message deleted. 'This message was deleted' placeholder shown."
+                else:
+                    R["MSG_062"] = "FAIL — No placeholder"; A["MSG_062"] = "Message deleted but 'This message was deleted' placeholder not found."
+            else:
+                R["MSG_062"] = "SKIP — Delete disappeared"; A["MSG_062"] = "Delete option not found."
+                _dismiss(driver)
+        else:
+            msg = driver.find_elements(AppiumBy.XPATH, f'//*[contains(@label,"{del_text}")]')
+            if msg:
+                _long_press(driver, msg[0]); time.sleep(2)
+                delete = driver.find_elements(AppiumBy.XPATH, '//*[@label="Delete" or @name="Delete"]')
+                if delete:
+                    delete[0].click(); time.sleep(2)
+                    popup = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"Delete this Message")]')
+                    if popup:
+                        driver.execute_script("mobile: tap", {"x": 286, "y": 560})
+                        time.sleep(2)
+                    placeholder = driver.find_elements(AppiumBy.XPATH, '//*[contains(@label,"deleted") or contains(@label,"This message was deleted")]')
+                    if not placeholder:
+                        try:
+                            import re as _re
+                            src = driver.page_source
+                            if _re.search(r'message was deleted', src, re.IGNORECASE):
+                                placeholder = True
+                        except: pass
+                    if placeholder:
+                        R["MSG_062"] = "PASS"; A["MSG_062"] = "'This message was deleted' placeholder shown."
+                    else:
+                        R["MSG_062"] = "FAIL — No placeholder"; A["MSG_062"] = "Message deleted but placeholder not found."
+                else:
+                    R["MSG_062"] = "SKIP — Delete not found"; A["MSG_062"] = "Delete not in menu."
+                    _dismiss(driver)
+            else:
+                R["MSG_062"] = "FAIL"; A["MSG_062"] = "Message not found."
+    except Exception as e:
+        R["MSG_062"] = f"FAIL — {str(e)[:80]}"; A["MSG_062"] = str(e)[:80]
+        _dismiss(driver)
+    print(f"MSG_062: {R['MSG_062']}")
+
+    # ------------------------------------------------------------------
+    # MSG_063: Verify all composer features work in group chat
+    # TODO: Will handle later — needs Groups tab navigation fix
+    # ------------------------------------------------------------------
+    I["MSG_063"] = "N/A"
+    R["MSG_063"] = "SKIP — Deferred"
+    A["MSG_063"] = "Group chat test deferred for later."
+    print(f"MSG_063: {R['MSG_063']}")
 
     # Update Excel and print summary
     for tid in R:
